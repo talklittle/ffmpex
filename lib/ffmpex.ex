@@ -104,6 +104,9 @@ defmodule FFmpex do
     %Command{command | files: [file | files]}
   end
 
+  @doc """
+  Execute the command using ffmpeg CLI.
+  """
   def execute(%Command{files: files, global_options: options}) do
     options = Enum.map(options, &arg_for_option/1)
     cmd_args = List.flatten([options, options_list(files)])

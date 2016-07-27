@@ -26,7 +26,7 @@ defmodule FFmpexTest do
       |> add_output_file(@output_path)
         |> add_stream_specifier(%StreamSpecifier{stream_type: :video})
           |> add_stream_option(option_b("64k"))
-        |> add_file_option(option_maxrate("128k"))
+        |> add_file_option(option_maxrate("256k"))
         |> add_file_option(option_bufsize("64k"))
 
     system_cmd_result = execute(command)

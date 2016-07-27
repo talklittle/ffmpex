@@ -26,6 +26,10 @@ FFmpex can be installed as:
     end
     ```
 
+## Release notes
+
+See the [changelog](CHANGELOG.md) for changes between versions.
+
 ## Disclaimer
 
 FFmpex is not affiliated with nor endorsed by the FFmpeg project.

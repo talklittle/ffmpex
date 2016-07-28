@@ -1,5 +1,7 @@
 # FFmpex
 
+[![Build Status](https://travis-ci.org/talklittle/ffmpex.svg?branch=master)](https://travis-ci.org/talklittle/ffmpex)
+
 An Elixir wrapper for the FFmpeg command line interface.
 
 ## Prerequisites

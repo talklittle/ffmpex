@@ -1,3 +1,4 @@
+group: edge
 language: elixir
 sudo: required
 dist: trusty

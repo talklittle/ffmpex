@@ -4,6 +4,8 @@
 
 An Elixir wrapper for the FFmpeg command line interface.
 
+Documentation: https://hexdocs.pm/ffmpex/
+
 ## Prerequisites
 
 [FFmpeg](https://ffmpeg.org/) must be installed.

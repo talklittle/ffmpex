@@ -30,7 +30,7 @@ defmodule FFmpexTest do
         |> add_file_option(option_bufsize("64k"))
 
     system_cmd_result = execute(command)
-    {_, 0} = system_cmd_result
+    assert {_, 0} = system_cmd_result
   end
 
 end

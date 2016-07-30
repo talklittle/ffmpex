@@ -41,7 +41,7 @@ FFmpex can be installed as:
 
     ```elixir
     def deps do
-      [{:ffmpex, "~> 0.1.0"}]
+      [{:ffmpex, "~> 0.1.1"}]
     end
     ```
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 (2016-07-30)
+
+* Lower Elixir requirement to 1.0 (was 1.3).
+
 ## 0.1.0 (2016-07-27)
 
 * First FFmpex release.

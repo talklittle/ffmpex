@@ -35,8 +35,6 @@ system_cmd_result = execute(command)
 
 ## Installation
 
-FFmpex can be installed as:
-
   1. Add `ffmpex` to your list of dependencies in `mix.exs`:
 
     ```elixir

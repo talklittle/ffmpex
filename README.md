@@ -6,7 +6,7 @@ An Elixir wrapper for the FFmpeg command line interface.
 
 Documentation: https://hexdocs.pm/ffmpex/
 
-## Example
+## Examples
 
 ```elixir
 alias FFmpex.StreamSpecifier
@@ -27,6 +27,13 @@ command =
 
 system_cmd_result = execute(command)
 {_, 0} = system_cmd_result
+```
+
+You can use the `FFprobe` module to query for file info:
+
+```elixir
+FFprobe.duration("/path/to/input.avi")
+# => result in seconds, e.g., 228.456939
 ```
 
 ## Prerequisites
@@ -50,6 +57,15 @@ system_cmd_result = execute(command)
       [applications: [:ffmpex]]
     end
     ```
+
+## Configuration
+
+You can specify some options in `config.exs`:
+
+```elixir
+config :ffmpex, ffmpeg_path: "/path/to/ffmpeg"
+config :ffmpex, ffprobe_path: "/path/to/ffprobe"
+```
 
 ## Release notes
 

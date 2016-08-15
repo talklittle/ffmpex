@@ -16,7 +16,7 @@ defmodule FFprobe do
   def duration(file_path) do
     cmd_args = ~w(-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{file_path})
     {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
-    case String.trim(result) do
+    case String.strip(result) do
       "N/A" -> :no_duration
       result ->
         {result_float, _} = Float.parse(result)

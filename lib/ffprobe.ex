@@ -11,6 +11,7 @@ defmodule FFprobe do
 
   @doc """
   Get the duration in seconds, as a float.
+  If no duration (e.g., a still image), returns `:no_duration`
   """
   def duration(file_path) do
     cmd_args = ~w(-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{file_path})

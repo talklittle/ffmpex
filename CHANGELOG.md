@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 (2016-08-15)
+
+* Added `FFprobe` module. `FFprobe.duration/1` to get video duration.
+
 ## 0.1.1 (2016-07-30)
 
 * Lower Elixir requirement to 1.0 (was 1.3).

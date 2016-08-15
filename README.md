@@ -51,6 +51,15 @@ system_cmd_result = execute(command)
     end
     ```
 
+## Configuration
+
+You can specify some options in `config.exs`:
+
+```elixir
+config :ffmpex, ffmpeg_path: "/path/to/ffmpeg"
+config :ffmpex, ffprobe_path: "/path/to/ffprobe"
+```
+
 ## Release notes
 
 See the [changelog](CHANGELOG.md) for changes between versions.

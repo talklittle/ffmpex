@@ -25,7 +25,19 @@ defmodule FFprobe do
   end
 
   @doc """
-  Get the "format" map, containing codec info for the specified file.
+  Get a list of formats for the file.
+  """
+  @spec format_names(binary | %{binary => binary}) :: [binary]
+  def format_names(file_path) when is_binary(file_path) do
+    format_names(format(file_path))
+  end
+  def format_names(format_map) when is_map(format_map) do
+    String.split format_map["format_name"], ","
+  end
+
+  @doc """
+  Get the "format" map, containing general info for the specified file,
+  such as number of streams, duration, file size, and more.
   """
   @spec format(binary) :: %{binary => binary}
   def format(file_path) do

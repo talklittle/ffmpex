@@ -13,15 +13,41 @@ defmodule FFprobe do
   Get the duration in seconds, as a float.
   If no duration (e.g., a still image), returns `:no_duration`
   """
-  def duration(file_path) do
-    cmd_args = ~w(-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{file_path})
-    {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
-    case String.strip(result) do
+  @spec duration(binary | %{binary => binary}) :: float | :no_duration
+  def duration(file_path) when is_binary(file_path) do
+    duration(format(file_path))
+  end
+  def duration(format_map) when is_map(format_map) do
+    case format_map["duration"] do
       "N/A" -> :no_duration
-      result ->
-        {result_float, _} = Float.parse(result)
-        result_float
+      result -> Float.parse(result) |> elem(0)
     end
+  end
+
+  @doc """
+  Get a list of formats for the file.
+  """
+  @spec format_names(binary | %{binary => binary}) :: [binary]
+  def format_names(file_path) when is_binary(file_path) do
+    format_names(format(file_path))
+  end
+  def format_names(format_map) when is_map(format_map) do
+    String.split format_map["format_name"], ","
+  end
+
+  @doc """
+  Get the "format" map, containing general info for the specified file,
+  such as number of streams, duration, file size, and more.
+  """
+  @spec format(binary) :: %{binary => binary}
+  def format(file_path) do
+    cmd_args = ~w(-show_format #{file_path})
+    {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
+
+    ~r/^([^=]+)=(.+)$/m
+    |> Regex.scan(result)
+    |> Enum.map(fn [_line, key, value] -> {key, value} end)
+    |> Enum.into(%{})
   end
 
   # Read ffprobe path from config. If unspecified, assume `ffprobe` is in env $PATH.

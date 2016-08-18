@@ -13,9 +13,12 @@ defmodule FFprobe do
   Get the duration in seconds, as a float.
   If no duration (e.g., a still image), returns `:no_duration`
   """
-  @spec duration(binary) :: float | :no_duration
-  def duration(file_path) do
-    case format(file_path)["duration"] do
+  @spec duration(binary | %{binary => binary}) :: float | :no_duration
+  def duration(file_path) when is_binary(file_path) do
+    duration(format(file_path))
+  end
+  def duration(format_map) when is_map(format_map) do
+    case format_map["duration"] do
       "N/A" -> :no_duration
       result -> Float.parse(result) |> elem(0)
     end

@@ -46,7 +46,7 @@ FFprobe.duration("/path/to/input.avi")
 
     ```elixir
     def deps do
-      [{:ffmpex, "~> 0.2.0"}]
+      [{:ffmpex, "~> 0.2.1"}]
     end
     ```
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 (2016-08-17)
+
+* Added `FFprobe.format/1` and `FFprobe.format_names/1`.
+
 ## 0.2.0 (2016-08-15)
 
 * Added `FFprobe` module. `FFprobe.duration/1` to get video duration.

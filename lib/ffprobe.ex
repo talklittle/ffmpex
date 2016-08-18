@@ -15,13 +15,9 @@ defmodule FFprobe do
   """
   @spec duration(binary) :: float | :no_duration
   def duration(file_path) do
-    cmd_args = ~w(-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{file_path})
-    {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
-    case String.strip(result) do
+    case format(file_path)["duration"] do
       "N/A" -> :no_duration
-      result ->
-        {result_float, _} = Float.parse(result)
-        result_float
+      result -> Float.parse(result) |> elem(0)
     end
   end
 

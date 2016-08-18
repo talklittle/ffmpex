@@ -9,11 +9,13 @@ defmodule FFprobe do
   (from https://trac.ffmpeg.org/wiki/FFprobeTips)
   """
 
+  @type format_map :: %{binary => binary}
+
   @doc """
   Get the duration in seconds, as a float.
   If no duration (e.g., a still image), returns `:no_duration`
   """
-  @spec duration(binary | %{binary => binary}) :: float | :no_duration
+  @spec duration(binary | format_map) :: float | :no_duration
   def duration(file_path) when is_binary(file_path) do
     duration(format(file_path))
   end
@@ -27,7 +29,7 @@ defmodule FFprobe do
   @doc """
   Get a list of formats for the file.
   """
-  @spec format_names(binary | %{binary => binary}) :: [binary]
+  @spec format_names(binary | format_map) :: [binary]
   def format_names(file_path) when is_binary(file_path) do
     format_names(format(file_path))
   end
@@ -39,7 +41,7 @@ defmodule FFprobe do
   Get the "format" map, containing general info for the specified file,
   such as number of streams, duration, file size, and more.
   """
-  @spec format(binary) :: %{binary => binary}
+  @spec format(binary) :: format_map
   def format(file_path) do
     cmd_args = ~w(-show_format #{file_path})
     {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true

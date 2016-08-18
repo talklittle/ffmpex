@@ -13,6 +13,7 @@ defmodule FFprobe do
   Get the duration in seconds, as a float.
   If no duration (e.g., a still image), returns `:no_duration`
   """
+  @spec duration(binary) :: float | :no_duration
   def duration(file_path) do
     cmd_args = ~w(-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{file_path})
     {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
@@ -22,6 +23,20 @@ defmodule FFprobe do
         {result_float, _} = Float.parse(result)
         result_float
     end
+  end
+
+  @doc """
+  Get the "format" map, containing codec info for the specified file.
+  """
+  @spec format(binary) :: %{binary => binary}
+  def format(file_path) do
+    cmd_args = ~w(-show_format #{file_path})
+    {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
+
+    ~r/^([^=]+)=(.+)$/m
+    |> Regex.scan(result)
+    |> Enum.map(fn [_line, key, value] -> {key, value} end)
+    |> Enum.into(%{})
   end
 
   # Read ffprobe path from config. If unspecified, assume `ffprobe` is in env $PATH.

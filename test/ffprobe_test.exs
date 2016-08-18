@@ -12,4 +12,8 @@ defmodule FFprobeTest do
   test "handles N/A duration" do
     assert :no_duration == FFprobe.duration(@fixture_still_image)
   end
+
+  test "format has at least one expected key" do
+    assert %{"nb_streams" => "2"} = FFprobe.format(@fixture)
+  end
 end

@@ -5,8 +5,6 @@ defmodule FFmpexTest do
   @fixture Path.join(__DIR__, "fixtures/test-mpeg.mpg")
   @output_path Path.join(System.tmp_dir, "ffmpex-test-fixture.avi")
 
-  alias FFmpex.StreamSpecifier
-
   import FFmpex
   use FFmpex.Options
 
@@ -23,7 +21,7 @@ defmodule FFmpexTest do
       |> add_global_option(option_y)
       |> add_input_file(@fixture)
       |> add_output_file(@output_path)
-        |> add_stream_specifier(%StreamSpecifier{stream_type: :video})
+        |> add_stream_specifier(stream_type: :video)
           |> add_stream_option(option_b("64k"))
         |> add_file_option(option_maxrate("128k"))
         |> add_file_option(option_bufsize("64k"))

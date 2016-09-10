@@ -9,8 +9,6 @@ Documentation: https://hexdocs.pm/ffmpex/
 ## Examples
 
 ```elixir
-alias FFmpex.StreamSpecifier
-
 import FFmpex
 use FFmpex.Options
 
@@ -19,7 +17,7 @@ command =
   |> add_global_option(option_y)
   |> add_input_file("/path/to/input.avi")
   |> add_output_file("/path/to/output.avi")
-    |> add_stream_specifier(%StreamSpecifier{stream_type: :video})
+    |> add_stream_specifier(stream_type: :video)
       |> add_stream_option(option_b("64k"))
     |> add_file_option(option_maxrate("128k"))
     |> add_file_option(option_bufsize("64k"))

@@ -13,8 +13,6 @@ defmodule FFmpex do
 
   Example usage:
 
-      alias FFmpex.StreamSpecifier
-
       import FFmpex
       use FFmpex.Options
 
@@ -23,7 +21,7 @@ defmodule FFmpex do
         |> add_global_option(option_y)
         |> add_input_file("/path/to/input.avi")
         |> add_output_file("/path/to/output.avi")
-          |> add_stream_specifier(%StreamSpecifier{stream_type: :video})
+          |> add_stream_specifier(stream_type: :video)
             |> add_stream_option(option_b("64k"))
           |> add_file_option(option_maxrate("128k"))
           |> add_file_option(option_bufsize("64k"))
@@ -70,8 +68,26 @@ defmodule FFmpex do
   @doc """
   Add a stream specifier to the most recent file.
   The stream specifier is used as a target for per-stream options.
+
+  Example:
+
+  ```
+  add_stream_specifier(command, stream_type: :video)
+  ```
+
+  Options:
+
+  * `:stream_index` - 0-based integer index for the stream
+  * `:stream_type` - One of `:video`, `:video_without_pics`, `:audio`, `:subtitle`, `:data`, `:attachments`
+  * `:program_id` - ID for the program
+  * `:stream_id` - Stream id (e.g. PID in MPEG-TS container)
+  * `:metadata_key` - Match streams with the given metadata tag
+  * `:metadata_value` - Match streams with the given metadata value. Must also specify `:metadata_key`.
+  * `:usable` - Matches streams with usable configuration, the codec must be defined and the essential information such as video dimension or audio sample rate must be present.
   """
-  def add_stream_specifier(%Command{files: [file | files]} = command, %StreamSpecifier{} = stream_specifier) do
+  @spec add_stream_specifier(command :: Command.t, opts :: Keyword.t) :: Command.t
+  def add_stream_specifier(%Command{files: [file | files]} = command, opts) do
+    stream_specifier = struct(StreamSpecifier, opts)
     file = %File{file | stream_specifiers: [stream_specifier | file.stream_specifiers]}
     %Command{command | files: [file | files]}
   end

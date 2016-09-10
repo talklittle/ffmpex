@@ -16,8 +16,7 @@ defmodule FFmpex do
       alias FFmpex.StreamSpecifier
 
       import FFmpex
-      import FFmpex.Options.Main
-      import FFmpex.Options.Video.Libx264
+      use FFmpex.Options
 
       command =
         FFmpex.new_command

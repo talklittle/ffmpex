@@ -8,8 +8,7 @@ defmodule FFmpexTest do
   alias FFmpex.StreamSpecifier
 
   import FFmpex
-  import FFmpex.Options.Main
-  import FFmpex.Options.Video.Libx264
+  use FFmpex.Options
 
   setup do
     on_exit fn ->

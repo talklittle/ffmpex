@@ -1,7 +1,6 @@
 defmodule FFmpex.Command do
-  @moduledoc """
-  Opaque struct holding the command that is being built up.
-  """
+  @moduledoc false
+
   alias FFmpex.File
   alias FFmpex.Option
 

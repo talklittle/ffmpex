@@ -1,4 +1,5 @@
 defmodule FFmpex.Option do
+  @moduledoc false
 
   @type name        :: binary
   @type argument    :: binary | nil

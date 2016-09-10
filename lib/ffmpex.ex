@@ -13,24 +13,20 @@ defmodule FFmpex do
 
   Example usage:
 
-      alias FFmpex.StreamSpecifier
-
       import FFmpex
-      import FFmpex.Options.Main
-      import FFmpex.Options.Video.Libx264
+      use FFmpex.Options
 
       command =
         FFmpex.new_command
         |> add_global_option(option_y)
         |> add_input_file("/path/to/input.avi")
         |> add_output_file("/path/to/output.avi")
-          |> add_stream_specifier(%StreamSpecifier{stream_type: :video})
+          |> add_stream_specifier(stream_type: :video)
             |> add_stream_option(option_b("64k"))
           |> add_file_option(option_maxrate("128k"))
           |> add_file_option(option_bufsize("64k"))
 
-      system_cmd_result = execute(command)
-      {_, 0} = system_cmd_result
+      :ok = execute(command)
   """
   alias FFmpex.Command
   alias FFmpex.File
@@ -71,8 +67,26 @@ defmodule FFmpex do
   @doc """
   Add a stream specifier to the most recent file.
   The stream specifier is used as a target for per-stream options.
+
+  Example:
+
+  ```
+  add_stream_specifier(command, stream_type: :video)
+  ```
+
+  Options:
+
+  * `:stream_index` - 0-based integer index for the stream
+  * `:stream_type` - One of `:video`, `:video_without_pics`, `:audio`, `:subtitle`, `:data`, `:attachments`
+  * `:program_id` - ID for the program
+  * `:stream_id` - Stream id (e.g. PID in MPEG-TS container)
+  * `:metadata_key` - Match streams with the given metadata tag
+  * `:metadata_value` - Match streams with the given metadata value. Must also specify `:metadata_key`.
+  * `:usable` - Matches streams with usable configuration, the codec must be defined and the essential information such as video dimension or audio sample rate must be present.
   """
-  def add_stream_specifier(%Command{files: [file | files]} = command, %StreamSpecifier{} = stream_specifier) do
+  @spec add_stream_specifier(command :: Command.t, opts :: Keyword.t) :: Command.t
+  def add_stream_specifier(%Command{files: [file | files]} = command, opts) do
+    stream_specifier = struct(StreamSpecifier, opts)
     file = %File{file | stream_specifiers: [stream_specifier | file.stream_specifiers]}
     %Command{command | files: [file | files]}
   end
@@ -106,11 +120,17 @@ defmodule FFmpex do
 
   @doc """
   Execute the command using ffmpeg CLI.
+
+  Returns `:ok` on success, or `{:error, {cmd_output, exit_status}}` on error.
   """
+  @spec execute(command :: Command.t) :: :ok | {:error, {Collectable.t, exit_status :: non_neg_integer}}
   def execute(%Command{files: files, global_options: options}) do
     options = Enum.map(options, &arg_for_option/1)
     cmd_args = List.flatten([options, options_list(files)])
-    System.cmd ffmpeg_path(), cmd_args, stderr_to_stdout: true
+    case System.cmd ffmpeg_path(), cmd_args, stderr_to_stdout: true do
+      {_, 0} -> :ok
+      error -> {:error, error}
+    end
   end
 
   defp options_list(files) do

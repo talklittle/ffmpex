@@ -1,4 +1,6 @@
 defmodule FFmpex.StreamSpecifier do
+  @moduledoc false
+
   alias FFmpex.Option
 
   @type options        :: [Option.t]

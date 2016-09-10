@@ -5,11 +5,8 @@ defmodule FFmpexTest do
   @fixture Path.join(__DIR__, "fixtures/test-mpeg.mpg")
   @output_path Path.join(System.tmp_dir, "ffmpex-test-fixture.avi")
 
-  alias FFmpex.StreamSpecifier
-
   import FFmpex
-  import FFmpex.Options.Main
-  import FFmpex.Options.Video.Libx264
+  use FFmpex.Options
 
   setup do
     on_exit fn ->
@@ -24,13 +21,20 @@ defmodule FFmpexTest do
       |> add_global_option(option_y)
       |> add_input_file(@fixture)
       |> add_output_file(@output_path)
-        |> add_stream_specifier(%StreamSpecifier{stream_type: :video})
+        |> add_stream_specifier(stream_type: :video)
           |> add_stream_option(option_b("64k"))
         |> add_file_option(option_maxrate("128k"))
         |> add_file_option(option_bufsize("64k"))
 
-    system_cmd_result = execute(command)
-    assert {_, 0} = system_cmd_result
+    assert :ok = execute(command)
+  end
+
+  test "get error with invalid options" do
+    command =
+      FFmpex.new_command
+      |> add_global_option(option_maxrate(-100))
+
+    assert {:error, {_, 1}} = execute(command)
   end
 
 end

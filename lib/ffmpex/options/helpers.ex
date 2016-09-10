@@ -1,4 +1,5 @@
 defmodule FFmpex.Options.Helpers do
+  @moduledoc false
 
   defmacro option_functions(options_map) do
     quote bind_quoted: [options_map: options_map] do

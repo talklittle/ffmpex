@@ -9,24 +9,20 @@ Documentation: https://hexdocs.pm/ffmpex/
 ## Examples
 
 ```elixir
-alias FFmpex.StreamSpecifier
-
 import FFmpex
-import FFmpex.Options.Main
-import FFmpex.Options.Video.Libx264
+use FFmpex.Options
 
 command =
   FFmpex.new_command
   |> add_global_option(option_y)
   |> add_input_file("/path/to/input.avi")
   |> add_output_file("/path/to/output.avi")
-    |> add_stream_specifier(%StreamSpecifier{stream_type: :video})
+    |> add_stream_specifier(stream_type: :video)
       |> add_stream_option(option_b("64k"))
     |> add_file_option(option_maxrate("128k"))
     |> add_file_option(option_bufsize("64k"))
 
-system_cmd_result = execute(command)
-{_, 0} = system_cmd_result
+:ok = execute(command)
 ```
 
 You can use the `FFprobe` module to query for file info:
@@ -50,7 +46,7 @@ for more usage examples.
 
     ```elixir
     def deps do
-      [{:ffmpex, "~> 0.2.1"}]
+      [{:ffmpex, "~> 0.3.0"}]
     end
     ```
 

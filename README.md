@@ -36,6 +36,10 @@ FFprobe.duration("/path/to/input.avi")
 # => result in seconds, e.g., 228.456939
 ```
 
+See [silent_video](https://github.com/talklittle/silent_video)
+and [thumbnex](https://github.com/talklittle/thumbnex)
+for more usage examples.
+
 ## Prerequisites
 
 [FFmpeg](https://ffmpeg.org/) must be installed.

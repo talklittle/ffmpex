@@ -1,4 +1,6 @@
 defmodule FFmpex.File do
+  @moduledoc false
+
   alias FFmpex.Option
   alias FFmpex.StreamSpecifier
 

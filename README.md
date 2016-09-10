@@ -22,8 +22,7 @@ command =
     |> add_file_option(option_maxrate("128k"))
     |> add_file_option(option_bufsize("64k"))
 
-system_cmd_result = execute(command)
-{_, 0} = system_cmd_result
+:ok = execute(command)
 ```
 
 You can use the `FFprobe` module to query for file info:

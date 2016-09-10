@@ -26,8 +26,15 @@ defmodule FFmpexTest do
         |> add_file_option(option_maxrate("128k"))
         |> add_file_option(option_bufsize("64k"))
 
-    system_cmd_result = execute(command)
-    assert {_, 0} = system_cmd_result
+    assert :ok = execute(command)
+  end
+
+  test "get error with invalid options" do
+    command =
+      FFmpex.new_command
+      |> add_global_option(option_maxrate(-100))
+
+    assert {:error, {_, 1}} = execute(command)
   end
 
 end

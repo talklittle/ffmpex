@@ -26,8 +26,7 @@ defmodule FFmpex do
           |> add_file_option(option_maxrate("128k"))
           |> add_file_option(option_bufsize("64k"))
 
-      system_cmd_result = execute(command)
-      {_, 0} = system_cmd_result
+      :ok = execute(command)
   """
   alias FFmpex.Command
   alias FFmpex.File
@@ -121,11 +120,17 @@ defmodule FFmpex do
 
   @doc """
   Execute the command using ffmpeg CLI.
+
+  Returns `:ok` on success, or `{:error, {cmd_output, exit_status}}` on error.
   """
+  @spec execute(command :: Command.t) :: :ok | {:error, {Collectable.t, exit_status :: non_neg_integer}}
   def execute(%Command{files: files, global_options: options}) do
     options = Enum.map(options, &arg_for_option/1)
     cmd_args = List.flatten([options, options_list(files)])
-    System.cmd ffmpeg_path(), cmd_args, stderr_to_stdout: true
+    case System.cmd ffmpeg_path(), cmd_args, stderr_to_stdout: true do
+      {_, 0} -> :ok
+      error -> {:error, error}
+    end
   end
 
   defp options_list(files) do

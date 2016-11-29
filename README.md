@@ -9,7 +9,6 @@ Documentation: https://hexdocs.pm/ffmpex/
 ## Examples
 
 ```elixir
-import FFmpex
 use FFmpex.Options
 
 command = FFmpex.new_command [
@@ -26,7 +25,7 @@ command = FFmpex.new_command [
   ]
 ]
 
-:ok = execute(command)
+:ok = FFmpex.execute(command)
 ```
 
 You can use the `FFprobe` module to query for file info:

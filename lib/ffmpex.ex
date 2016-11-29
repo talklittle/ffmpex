@@ -6,7 +6,6 @@ defmodule FFmpex do
 
   Example usage with nested keyword lists:
 
-      import FFmpex
       use FFmpex.Options
 
       command = FFmpex.new_command [
@@ -23,12 +22,14 @@ defmodule FFmpex do
         ]
       ]
 
-      :ok = execute(command)
+      :ok = FFmpex.execute(command)
 
   ## Builder API
 
   The alternative API is a builder, building up the list of options
-  per-file, per-stream(-per-file), and globally.
+  by applying functions to a `Command` struct. This can be convenient
+  for composing functions together, letting you pass the
+  `Command` struct around the entire time.
 
   Note that adding options is backwards from using
   the ffmpeg CLI; when using ffmpeg CLI, you specify the options

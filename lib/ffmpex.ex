@@ -39,6 +39,64 @@ defmodule FFmpex do
   def new_command, do: %Command{}
 
   @doc """
+  Begin an ffmpeg command with options.
+  """
+  def new_command(opts) do
+    update_command_from_keyword(new_command(), opts)
+  end
+
+  defp update_command_from_keyword(command, []), do: command
+  defp update_command_from_keyword(command, [{:option, global} | keyword]) do
+    update_command_from_keyword(add_global_option(command, global), keyword)
+  end
+  defp update_command_from_keyword(command, [{:input_file, %File{} = file} | keyword]) do
+    update_command_from_keyword(add_input_file(command, file), keyword)
+  end
+  defp update_command_from_keyword(command, [{:input_file, path} | keyword]) when is_binary(path) do
+    update_command_from_keyword(add_input_file(command, path), keyword)
+  end
+  defp update_command_from_keyword(command, [{:input_file, file_keyword} | keyword]) when is_list(file_keyword) do
+    file = update_file_from_keyword(%File{}, file_keyword)
+    command = add_input_file(command, file)
+    update_command_from_keyword(command, keyword)
+  end
+  defp update_command_from_keyword(command, [{:output_file, %File{} = file} | keyword]) do
+    update_command_from_keyword(add_output_file(command, file), keyword)
+  end
+  defp update_command_from_keyword(command, [{:output_file, path} | keyword]) when is_binary(path) do
+    update_command_from_keyword(add_output_file(command, path), keyword)
+  end
+  defp update_command_from_keyword(command, [{:output_file, file_keyword} | keyword]) when is_list(file_keyword) do
+    file = update_file_from_keyword(%File{}, file_keyword)
+    command = add_output_file(command, file)
+    update_command_from_keyword(command, keyword)
+  end
+
+  defp update_file_from_keyword(file, []), do: file
+  defp update_file_from_keyword(file, [{:path, path} | file_keyword]) do
+    update_file_from_keyword(%{file | path: path}, file_keyword)
+  end
+  defp update_file_from_keyword(file, [{:stream, stream_keyword} | file_keyword]) do
+    stream_specifier = update_stream_from_keyword(%StreamSpecifier{}, stream_keyword)
+    file = %{file | stream_specifiers: [stream_specifier | file.stream_specifiers]}
+    update_file_from_keyword(file, file_keyword)
+  end
+  defp update_file_from_keyword(file, [{:option, option} | file_keyword]) do
+    update_file_from_keyword(%{file | options: [option | file.options]}, file_keyword)
+  end
+
+  defp update_stream_from_keyword(stream, []), do: stream
+  defp update_stream_from_keyword(stream, [{:type, type} | stream_keyword]) do
+    update_stream_from_keyword(%{stream | stream_type: type}, stream_keyword)
+  end
+  defp update_stream_from_keyword(stream, [{:stream_type, type} | stream_keyword]) do
+    update_stream_from_keyword(%{stream | stream_type: type}, stream_keyword)
+  end
+  defp update_stream_from_keyword(stream, [{:option, option} | stream_keyword]) do
+    update_stream_from_keyword(%{stream | options: [option | stream.options]}, stream_keyword)
+  end
+
+  @doc """
   Add an input file to the command.
   """
   def add_input_file(%Command{files: files} = command, %File{} = file) do

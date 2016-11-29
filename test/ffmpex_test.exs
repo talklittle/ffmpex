@@ -37,4 +37,38 @@ defmodule FFmpexTest do
     assert {:error, {_, 1}} = execute(command)
   end
 
+  test "new_command/1 has the same result as builder API" do
+    command =
+      FFmpex.new_command
+      |> add_global_option(option_y)
+      |> add_input_file(@fixture)
+      |> add_output_file(@output_path)
+        |> add_stream_specifier(stream_type: :video)
+          |> add_stream_option(option_b("64k"))
+        |> add_file_option(option_maxrate("128k"))
+        |> add_file_option(option_bufsize("64k"))
+    :ok = execute(command)
+
+    %{size: old_size} = File.stat!(@output_path)
+
+    command = FFmpex.new_command [
+      option: option_y,
+      input_file: @fixture,
+      output_file: [
+        path: @output_path,
+        stream: [
+          type: :video,
+          option: option_b("64k")
+        ],
+        option: option_maxrate("128k"),
+        option: option_bufsize("64k")
+      ]
+    ]
+    :ok = execute(command)
+
+    %{size: new_size} = File.stat!(@output_path)
+
+    assert old_size == new_size
+  end
+
 end

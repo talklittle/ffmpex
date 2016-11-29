@@ -2,7 +2,32 @@ defmodule FFmpex do
   @moduledoc """
   Create and execute ffmpeg CLI commands.
 
-  The API is a builder, building up the list of options
+  ## Keyword API
+
+  Example usage with nested keyword lists:
+
+      import FFmpex
+      use FFmpex.Options
+
+      command = FFmpex.new_command [
+        option: option_y,
+        input_file: "/path/to/input.avi",
+        output_file: [
+          path: "/path/to/output.avi",
+          stream: [
+            type: :video,
+            option: option_b("64k")
+          ],
+          option: option_maxrate("128k"),
+          option: option_bufsize("64k")
+        ]
+      ]
+
+      :ok = execute(command)
+
+  ## Builder API
+
+  The alternative API is a builder, building up the list of options
   per-file, per-stream(-per-file), and globally.
 
   Note that adding options is backwards from using
@@ -11,7 +36,7 @@ defmodule FFmpex do
   But with FFmpex (this library), you add the file/stream first, then
   add the relevant options afterward.
 
-  Example usage:
+  Example builder usage:
 
       import FFmpex
       use FFmpex.Options

@@ -1,4 +1,7 @@
 defmodule FFmpex.Options.Audio do
+  @moduledoc """
+  https://ffmpeg.org/ffmpeg-all.html#Audio-Options
+  """
   alias FFmpex.Option
 
   @known_options %{

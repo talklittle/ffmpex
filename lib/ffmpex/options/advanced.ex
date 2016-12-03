@@ -1,4 +1,7 @@
 defmodule FFmpex.Options.Advanced do
+  @moduledoc """
+  https://ffmpeg.org/ffmpeg-all.html#Advanced-options
+  """
   alias FFmpex.Option
 
   @known_options %{

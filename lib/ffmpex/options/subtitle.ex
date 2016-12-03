@@ -1,4 +1,7 @@
 defmodule FFmpex.Options.Subtitle do
+  @moduledoc """
+  https://ffmpeg.org/ffmpeg-all.html#Subtitle-options
+  """
   alias FFmpex.Option
 
   @known_options %{

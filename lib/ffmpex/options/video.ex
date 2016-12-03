@@ -1,4 +1,7 @@
 defmodule FFmpex.Options.Video do
+  @moduledoc """
+  https://ffmpeg.org/ffmpeg-all.html#Video-Options
+  """
   alias FFmpex.Option
 
   @known_options %{

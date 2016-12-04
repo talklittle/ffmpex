@@ -37,4 +37,11 @@ defmodule FFmpexTest do
     assert {:error, {_, 1}} = execute(command)
   end
 
+  test "raise if invalid option context" do
+    assert_raise ArgumentError, fn ->
+      FFmpex.new_command
+      |> add_global_option(option_f("mpegts"))
+    end
+  end
+
 end

@@ -94,7 +94,8 @@ defmodule FFmpex do
   @doc """
   Add a global option that applies to the entire command.
   """
-  def add_global_option(%Command{global_options: options} = command, %Option{} = option) do
+  def add_global_option(%Command{global_options: options} = command, %Option{contexts: contexts} = option) do
+    validate_contexts!(contexts, :global)
     %Command{command | global_options: [option | options]}
   end
 
@@ -102,7 +103,10 @@ defmodule FFmpex do
   Add a per-file option to the command.
   Applies to the most recently added file.
   """
-  def add_file_option(%Command{files: [file | files]} = command, %Option{} = option) do
+  def add_file_option(%Command{files: [file | files]} = command, %Option{contexts: contexts} = option) do
+    %{type: file_io_type} = file
+    validate_contexts!(contexts, file_io_type)
+
     file = %File{file | options: [option | file.options]}
     %Command{command | files: [file | files]}
   end
@@ -111,7 +115,10 @@ defmodule FFmpex do
   Add a per-stream option to the command.
   Applies to the most recently added stream specifier, of the most recently added file.
   """
-  def add_stream_option(%Command{files: [file | files]} = command, %Option{} = option) do
+  def add_stream_option(%Command{files: [file | files]} = command, %Option{contexts: contexts} = option) do
+    %{type: file_io_type} = file
+    validate_contexts!(contexts, file_io_type)
+
     %File{stream_specifiers: [stream_specifier | stream_specifiers]} = file
     stream_specifier = %StreamSpecifier{stream_specifier | options: [option | stream_specifier.options]}
     file = %File{file | stream_specifiers: [stream_specifier | stream_specifiers]}
@@ -155,6 +162,11 @@ defmodule FFmpex do
   end
   defp arg_for_option(%Option{name: name, argument: arg}) when not is_nil(arg) do
     ~w(#{name} #{arg})
+  end
+
+  defp validate_contexts!(:unspecified, _), do: :ok
+  defp validate_contexts!(contexts, required) when is_list(contexts) do
+    unless Enum.member?(contexts, required), do: raise ArgumentError
   end
 
   # Read ffmpeg path from config. If unspecified, assume `ffmpeg` is in env $PATH.

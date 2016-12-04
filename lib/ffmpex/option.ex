@@ -5,7 +5,7 @@ defmodule FFmpex.Option do
   @type argument    :: binary | nil
   @type require_arg :: boolean
   @type contexts    :: :unspecified | [context]
-  @type context     :: :input | :output | :global | :per_stream
+  @type context     :: :input | :output | :global | :per_stream | :per_metadata
 
   @type t :: %__MODULE__{
     name:        name,

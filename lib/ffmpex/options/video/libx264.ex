@@ -1,4 +1,8 @@
 defmodule FFmpex.Options.Video.Libx264 do
+  @moduledoc """
+  https://ffmpeg.org/ffmpeg-all.html#libx264_002c-libx264rgb
+  """
+
   alias FFmpex.Option
 
   @known_options %{

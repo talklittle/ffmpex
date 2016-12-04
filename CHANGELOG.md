@@ -1,10 +1,15 @@
 # Changelog
 
+## 0.4.0 (2016-12-03)
+
+* Added `FFmpex.Options.Video.Libavformat`.
+* Validate options context (input, output, global) as specified in FFmpeg docs.
+
 ## 0.3.0 (2016-09-10)
 
-* **Breaking change:** `add_stream_specifier/2` takes a keyword list instead of `%StreamSpecifier{}`
-* **Breaking change:** `execute/1` returns `:ok` or `{:error, {output, status}}`, instead of `{output, status}`
-* Added `use FFmpex.Options` to conveniently import all options
+* **Breaking change:** `add_stream_specifier/2` takes a keyword list instead of `%StreamSpecifier{}`.
+* **Breaking change:** `execute/1` returns `:ok` or `{:error, {output, status}}`, instead of `{output, status}`.
+* Added `use FFmpex.Options` to conveniently import all options.
 
 ## 0.2.1 (2016-08-17)
 

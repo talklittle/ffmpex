@@ -18,7 +18,7 @@ defmodule FFmpexTest do
   test "set bitrate runs successfully" do
     command =
       FFmpex.new_command
-      |> add_global_option(option_y)
+      |> add_global_option(option_y())
       |> add_input_file(@fixture)
       |> add_output_file(@output_path)
         |> add_stream_specifier(stream_type: :video)

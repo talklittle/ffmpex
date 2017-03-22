@@ -46,7 +46,7 @@ for more usage examples.
 
     ```elixir
     def deps do
-      [{:ffmpex, "~> 0.4.0"}]
+      [{:ffmpex, "~> 0.4.1"}]
     end
     ```
 

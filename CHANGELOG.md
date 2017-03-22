@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1 (2017-03-22)
+
+* Fixed `FFprobe.format/1` for paths with spaces.
+
 ## 0.4.0 (2016-12-03)
 
 * Added `FFmpex.Options.Video.Libavformat`.

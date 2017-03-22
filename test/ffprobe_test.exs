@@ -4,6 +4,7 @@ defmodule FFprobeTest do
 
   @fixture Path.join(__DIR__, "fixtures/test-mpeg.mpg")
   @fixture_mp4 Path.join(__DIR__, "fixtures/test-mp4.mp4")
+  @fixture_space Path.join(__DIR__, "fixtures/test space.mp4")
   @fixture_still_image Path.join(__DIR__, "fixtures/ffmpex.png")
 
   test "correct duration" do
@@ -16,6 +17,10 @@ defmodule FFprobeTest do
 
   test "format has at least one expected key" do
     assert %{"nb_streams" => "2"} = FFprobe.format(@fixture)
+  end
+
+  test "format which filename has space" do
+    assert %{"nb_streams" => "2"} = FFprobe.format(@fixture_space)
   end
 
   test "format names include expected formats" do

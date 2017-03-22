@@ -43,7 +43,7 @@ defmodule FFprobe do
   """
   @spec format(binary) :: format_map
   def format(file_path) do
-    cmd_args = ~w(-show_format #{file_path})
+    cmd_args = ["-show_format", file_path]
     {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
 
     ~r/^([^=]+)=(.+)$/m

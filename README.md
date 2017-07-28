@@ -44,19 +44,19 @@ for more usage examples.
 
   1. Add `ffmpex` to your list of dependencies in `mix.exs`:
 
-    ```elixir
+```elixir
     def deps do
       [{:ffmpex, "~> 0.4.1"}]
     end
-    ```
+```
 
   2. Ensure `ffmpex` is started before your application:
 
-    ```elixir
+```elixir
     def application do
       [applications: [:ffmpex]]
     end
-    ```
+```
 
 ## Configuration
 

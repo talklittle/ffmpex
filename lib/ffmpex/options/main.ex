@@ -31,6 +31,7 @@ defmodule FFmpex.Options.Main do
     filter_script:   %Option{name: "-filter_script", require_arg: true, contexts: [:output, :per_stream]},
     filter_threads:  %Option{name: "-filter_threads", require_arg: true, contexts: [:global]},
     pre:             %Option{name: "-pre", require_arg: true, contexts: [:output, :per_stream]},
+    strict:          %Option{name: "-strict", require_arg: true, contexts: [:output]},
     stats:           %Option{name: "-stats", contexts: [:global]},
     progress:        %Option{name: "-progress", require_arg: true, contexts: [:global]},
     stdin:           %Option{name: "-stdin"},

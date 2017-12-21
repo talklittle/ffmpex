@@ -44,4 +44,15 @@ defmodule FFmpexTest do
     end
   end
 
+  test "manually specified option struct" do
+    manual_option = %FFmpex.Option{name: "-strict", argument: "very"}
+
+    command =
+      FFmpex.new_command
+      |> add_global_option(option_y())
+      |> add_global_option(manual_option)
+      |> add_input_file(@fixture)
+      |> add_output_file(@output_path)
+    assert :ok = execute(command)
+  end
 end

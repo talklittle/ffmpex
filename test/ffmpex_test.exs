@@ -53,6 +53,19 @@ defmodule FFmpexTest do
       |> add_global_option(manual_option)
       |> add_input_file(@fixture)
       |> add_output_file(@output_path)
+
     assert :ok = execute(command)
+  end
+
+  test "error if invalid manual option name" do
+    manual_option = %FFmpex.Option{name: "-thisisabadoptionitshouldfail", argument: "lolololol"}
+
+    command =
+      FFmpex.new_command
+      |> add_global_option(manual_option)
+      |> add_input_file(@fixture)
+      |> add_output_file(@output_path)
+
+    assert {:error, {_, 1}} = execute(command)
   end
 end

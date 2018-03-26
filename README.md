@@ -42,20 +42,12 @@ for more usage examples.
 
 ## Installation
 
-  1. Add `ffmpex` to your list of dependencies in `mix.exs`:
+Add `ffmpex` to your list of dependencies in `mix.exs`:
 
 ```elixir
-    def deps do
-      [{:ffmpex, "~> 0.5.0"}]
-    end
-```
-
-  2. Ensure `ffmpex` is started before your application:
-
-```elixir
-    def application do
-      [applications: [:ffmpex]]
-    end
+def deps do
+  [{:ffmpex, "~> 0.5.0"}]
+end
 ```
 
 ## Configuration

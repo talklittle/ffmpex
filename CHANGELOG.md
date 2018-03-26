@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 (2018-03-26)
+
+* **Breaking change:** Changed output format of `FFprobe.format/1` to be cleaner, based on ffmpeg JSON output.
+  Specifically: `"nb_programs"`, `"nb_streams"`, and `"probe_score"` now contain integers instead of binaries;
+  and tags are stored in a `"tags"` sub-map instead of being individual entries prefixed with "TAG:".
+* Added `FFprobe.streams/1` to get a list of streams.
+* Depends on Poison 3.1.
+* Requires Elixir 1.4.
+
 ## 0.4.1 (2017-03-22)
 
 * Fixed `FFprobe.format/1` for paths with spaces.

@@ -9,7 +9,8 @@ defmodule FFprobe do
   (from https://trac.ffmpeg.org/wiki/FFprobeTips)
   """
 
-  @type format_map :: %{binary => binary}
+  @type format_map :: Poison.Parser.t
+  @type streams_list :: [Poison.Parser.t]
 
   @doc """
   Get the duration in seconds, as a float.
@@ -21,7 +22,7 @@ defmodule FFprobe do
   end
   def duration(format_map) when is_map(format_map) do
     case format_map["duration"] do
-      "N/A" -> :no_duration
+      nil -> :no_duration
       result -> Float.parse(result) |> elem(0)
     end
   end
@@ -41,15 +42,24 @@ defmodule FFprobe do
   Get the "format" map, containing general info for the specified file,
   such as number of streams, duration, file size, and more.
   """
-  @spec format(binary) :: format_map
+  @spec format(binary) :: format_map | no_return
   def format(file_path) do
-    cmd_args = ["-show_format", file_path]
+    cmd_args = ["-v", "quiet", "-print_format", "json", "-show_format", file_path]
     {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
 
-    ~r/^([^=]+)=(.+)$/m
-    |> Regex.scan(result)
-    |> Enum.map(fn [_line, key, value] -> {key, value} end)
-    |> Enum.into(%{})
+    result
+    |> Poison.decode!()
+    |> Map.get("format", %{})
+  end
+
+  @spec streams(binary) :: streams_list | no_return
+  def streams(file_path) do
+    cmd_args = ["-v", "quiet", "-print_format", "json", "-show_streams", file_path]
+    {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
+
+    result
+    |> Poison.decode!()
+    |> Map.get("streams", [])
   end
 
   # Read ffprobe path from config. If unspecified, assume `ffprobe` is in env $PATH.

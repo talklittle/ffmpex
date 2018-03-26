@@ -16,11 +16,19 @@ defmodule FFprobeTest do
   end
 
   test "format has at least one expected key" do
-    assert %{"nb_streams" => "2"} = FFprobe.format(@fixture)
+    assert %{"nb_streams" => 2} = FFprobe.format(@fixture)
   end
 
   test "format which filename has space" do
-    assert %{"nb_streams" => "2"} = FFprobe.format(@fixture_space)
+    assert %{"nb_streams" => 2} = FFprobe.format(@fixture_space)
+  end
+
+  test "streams/1" do
+    streams = FFprobe.streams(@fixture_space)
+
+    assert is_list(streams)
+    assert streams |> Enum.at(0) |> Map.get("codec_name") == "h264"
+    assert streams |> Enum.at(1) |> Map.get("codec_name") == "aac"
   end
 
   test "format names include expected formats" do

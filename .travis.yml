@@ -1,5 +1,6 @@
 group: edge
 language: elixir
+elixir: '1.4'
 sudo: required
 dist: trusty
 before_install:

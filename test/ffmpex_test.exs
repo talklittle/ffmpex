@@ -68,4 +68,20 @@ defmodule FFmpexTest do
 
     assert {:error, {_, 1}} = execute(command)
   end
+
+  test "can prepare arguments" do
+    command =
+      FFmpex.new_command
+      |> add_global_option(option_y())
+      |> add_input_file(@fixture)
+      |> add_output_file(@output_path)
+        |> add_stream_specifier(stream_type: :video)
+          |> add_stream_option(option_b("64k"))
+        |> add_file_option(option_maxrate("128k"))
+        |> add_file_option(option_bufsize("64k"))
+
+    assert {executable, args} = prepare(command)
+    assert Enum.count(args) ==  10
+    assert executable =~  "ffmpeg"
+  end
 end

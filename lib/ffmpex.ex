@@ -131,13 +131,31 @@ defmodule FFmpex do
   Returns `:ok` on success, or `{:error, {cmd_output, exit_status}}` on error.
   """
   @spec execute(command :: Command.t) :: :ok | {:error, {Collectable.t, exit_status :: non_neg_integer}}
-  def execute(%Command{files: files, global_options: options}) do
-    options = Enum.map(options, &arg_for_option/1)
-    cmd_args = List.flatten([options, options_list(files)])
-    case System.cmd ffmpeg_path(), cmd_args, stderr_to_stdout: true do
+  def execute(%Command{} = command) do
+    {executable, cmd_args} = prepare(command)
+
+    case System.cmd executable, cmd_args, stderr_to_stdout: true do
       {_, 0} -> :ok
       error -> {:error, error}
     end
+  end
+
+  @doc """
+  Prepares the command to be executed, by converting the `%Command{}` into
+  proper parameters to be feeded to `System.cmd/3` or `Port.open/2`.
+
+  Under normal circumstances `FFmpex.execute/1` should be used, use `prepare`
+  only when converted args are needed to be feeded in a custom execution method.
+
+  Returns `{ffmpeg_executable_path, list_of_args}`.
+  """
+  @spec prepare(command :: Command.t) :: {binary(), list(binary)}
+  def prepare(%Command{files: files, global_options: options}) do
+    options = Enum.map(options, &arg_for_option/1)
+    cmd_args = List.flatten([options, options_list(files)])
+    executable = System.find_executable(ffmpeg_path())
+
+    {executable, cmd_args}
   end
 
   defp options_list(files) do

@@ -64,6 +64,9 @@ defmodule FFprobe do
 
   # Read ffprobe path from config. If unspecified, assume `ffprobe` is in env $PATH.
   defp ffprobe_path do
-    Application.get_env(:ffmpex, :ffprobe_path, "ffprobe")
+    case Application.get_env(:ffmpex, :ffprobe_path, nil) do
+      nil -> System.find_executable("ffprobe")
+      path -> path
+    end
   end
 end

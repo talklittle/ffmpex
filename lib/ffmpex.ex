@@ -153,9 +153,7 @@ defmodule FFmpex do
   def prepare(%Command{files: files, global_options: options}) do
     options = Enum.map(options, &arg_for_option/1)
     cmd_args = List.flatten([options, options_list(files)])
-    executable = System.find_executable(ffmpeg_path())
-
-    {executable, cmd_args}
+    {ffmpeg_path(), cmd_args}
   end
 
   defp options_list(files) do
@@ -189,6 +187,9 @@ defmodule FFmpex do
 
   # Read ffmpeg path from config. If unspecified, assume `ffmpeg` is in env $PATH.
   defp ffmpeg_path do
-    Application.get_env(:ffmpex, :ffmpeg_path, "ffmpeg")
+    case Application.get_env(:ffmpex, :ffmpeg_path, nil) do
+      nil -> System.find_executable("ffmpeg")
+      path -> path
+    end
   end
 end

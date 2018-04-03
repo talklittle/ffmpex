@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 (2018-04-02)
+
+* Added `FFmpex.prepare/1` to retrieve arguments list, useful for inspection or passing to `Port.open/2`.
+
 ## 0.5.0 (2018-03-26)
 
 * **Breaking change:** Changed output format of `FFprobe.format/1` to be cleaner, based on ffmpeg JSON output.

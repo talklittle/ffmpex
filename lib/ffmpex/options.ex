@@ -14,6 +14,7 @@ defmodule FFmpex.Options do
       import FFmpex.Options.Main
       import FFmpex.Options.Subtitle
       import FFmpex.Options.Video
+      import FFmpex.Options.Video.Libavdevice
       import FFmpex.Options.Video.Libavformat
       import FFmpex.Options.Video.Libx264
     end

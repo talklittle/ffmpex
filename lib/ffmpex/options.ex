@@ -11,10 +11,10 @@ defmodule FFmpex.Options do
     quote do
       import FFmpex.Options.Advanced
       import FFmpex.Options.Audio
+      import FFmpex.Options.Devices.Libavdevice
       import FFmpex.Options.Main
       import FFmpex.Options.Subtitle
       import FFmpex.Options.Video
-      import FFmpex.Options.Video.Libavdevice
       import FFmpex.Options.Video.Libavformat
       import FFmpex.Options.Video.Libx264
     end

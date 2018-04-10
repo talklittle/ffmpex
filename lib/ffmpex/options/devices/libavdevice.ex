@@ -1,4 +1,4 @@
-defmodule FFmpex.Options.Video.Libavdevice do
+defmodule FFmpex.Options.Devices.Libavdevice do
   @moduledoc """
   https://www.ffmpeg.org/ffmpeg-devices.html
   """

@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.5.1 (2018-04-02)
+### 0.5.2 (2018-04-10)
+
+* Added options `video_size`, `framerate`, `draw_mouse` in `FFmpex.Options.Devices.Libavdevice`.
+
+### 0.5.1 (2018-04-02)
 
 * Added `FFmpex.prepare/1` to retrieve arguments list, useful for inspection or passing to `Port.open/2`.
 
@@ -13,7 +17,7 @@
 * Depends on Poison 3.1.
 * Requires Elixir 1.4.
 
-## 0.4.1 (2017-03-22)
+### 0.4.1 (2017-03-22)
 
 * Fixed `FFprobe.format/1` for paths with spaces.
 
@@ -28,7 +32,7 @@
 * **Breaking change:** `execute/1` returns `:ok` or `{:error, {output, status}}`, instead of `{output, status}`.
 * Added `use FFmpex.Options` to conveniently import all options.
 
-## 0.2.1 (2016-08-17)
+### 0.2.1 (2016-08-17)
 
 * Added `FFprobe.format/1` and `FFprobe.format_names/1`.
 
@@ -36,7 +40,7 @@
 
 * Added `FFprobe` module. `FFprobe.duration/1` to get video duration.
 
-## 0.1.1 (2016-07-30)
+### 0.1.1 (2016-07-30)
 
 * Lower Elixir requirement to 1.0 (was 1.3).
 

@@ -2,14 +2,16 @@ defmodule FFmpex.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :ffmpex,
-     version: "0.5.2",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps(),
-     description: description(),
-     package: package()]
+    [
+      app: :ffmpex,
+      version: "0.5.2",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      description: description(),
+      package: package()
+    ]
   end
 
   # Configuration for the OTP application
@@ -30,8 +32,8 @@ defmodule FFmpex.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:poison, "~> 3.1"},
-      {:ex_doc, ">= 0.0.0", only: :dev}
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:jason, "~> 1.1.2"}
     ]
   end
 

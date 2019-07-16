@@ -9,8 +9,8 @@ defmodule FFprobe do
   (from https://trac.ffmpeg.org/wiki/FFprobeTips)
   """
 
-  @type format_map :: Poison.Parser.t
-  @type streams_list :: [Poison.Parser.t]
+  @type format_map :: Map.t()
+  @type streams_list :: [Map.t()]
 
   @doc """
   Get the duration in seconds, as a float.
@@ -20,6 +20,7 @@ defmodule FFprobe do
   def duration(file_path) when is_binary(file_path) do
     duration(format(file_path))
   end
+
   def duration(format_map) when is_map(format_map) do
     case format_map["duration"] do
       nil -> :no_duration
@@ -34,8 +35,9 @@ defmodule FFprobe do
   def format_names(file_path) when is_binary(file_path) do
     format_names(format(file_path))
   end
+
   def format_names(format_map) when is_map(format_map) do
-    String.split format_map["format_name"], ","
+    String.split(format_map["format_name"], ",")
   end
 
   @doc """
@@ -45,20 +47,20 @@ defmodule FFprobe do
   @spec format(binary) :: format_map | no_return
   def format(file_path) do
     cmd_args = ["-v", "quiet", "-print_format", "json", "-show_format", file_path]
-    {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
+    {result, 0} = System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true)
 
     result
-    |> Poison.decode!()
+    |> Jason.decode!()
     |> Map.get("format", %{})
   end
 
   @spec streams(binary) :: streams_list | no_return
   def streams(file_path) do
     cmd_args = ["-v", "quiet", "-print_format", "json", "-show_streams", file_path]
-    {result, 0} = System.cmd ffprobe_path(), cmd_args, stderr_to_stdout: true
+    {result, 0} = System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true)
 
     result
-    |> Poison.decode!()
+    |> Jason.decode!()
     |> Map.get("streams", [])
   end
 

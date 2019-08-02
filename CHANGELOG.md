@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 (2019-07-16)
+
+* Changed to Jason instead of Poison for JSON operations.
+
 ### 0.5.2 (2018-04-10)
 
 * Added options `video_size`, `framerate`, `draw_mouse` in `FFmpex.Options.Devices.Libavdevice`.

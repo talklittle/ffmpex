@@ -19,11 +19,15 @@ defmodule FFprobe do
   """
   @spec duration(binary | format_map) :: float | :no_duration
   def duration(file_path) when is_binary(file_path) do
-    with format = %{} <- format(file_path) do
-      duration(format)
-    else
+    case format(file_path) do
+      format = %{} ->
+        duration(format)
+
       {:error, :invalid_file} ->
         duration(%{"duration" => nil})
+
+      error ->
+        error
     end
   end
 
@@ -39,10 +43,15 @@ defmodule FFprobe do
   If the file does not exist, returns { :error, :no_such_file }.
   If the file is a non media file, returns { :error, :invalid_file }.
   """
-  @spec format_names(binary | format_map) :: [binary]
+  @spec format_names(binary | format_map) ::
+          [binary] | {:error, :invalid_file} | {:error, :no_such_file}
   def format_names(file_path) when is_binary(file_path) do
-    with format = %{} <- format(file_path) do
-      format_names(format)
+    case format(file_path) do
+      format = %{} ->
+        format_names(format)
+
+      error ->
+        error
     end
   end
 
@@ -56,24 +65,22 @@ defmodule FFprobe do
   If the file does not exist, returns { :error, :no_such_file }.
   If the file is a non media file, returns { :error, :invalid_file }.
   """
-  @spec format(binary) :: format_map | no_return
+  @spec format(binary) :: format_map | {:error, :invalid_file} | {:error, :no_such_file}
   def format(file_path) do
-    case File.exists?(file_path) do
-      false ->
-        {:error, :no_such_file}
+    if File.exists?(file_path) do
+      cmd_args = ["-v", "quiet", "-print_format", "json", "-show_format", file_path]
 
-      true ->
-        cmd_args = ["-v", "quiet", "-print_format", "json", "-show_format", file_path]
+      case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
+        {result, 0} ->
+          result
+          |> Jason.decode!()
+          |> Map.get("format", %{})
 
-        case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
-          {result, 0} ->
-            result
-            |> Jason.decode!()
-            |> Map.get("format", %{})
-
-          {_result, 1} ->
-            {:error, :invalid_file}
-        end
+        {_result, 1} ->
+          {:error, :invalid_file}
+      end
+    else
+      {:error, :no_such_file}
     end
   end
 
@@ -82,24 +89,22 @@ defmodule FFprobe do
   If the file does not exist, returns { :error, :no_such_file }.
   If the file is a non media file, returns { :error, :invalid_file }.
   """
-  @spec streams(binary) :: streams_list | no_return
+  @spec streams(binary) :: streams_list | {:error, :invalid_file} | {:error, :no_such_file}
   def streams(file_path) do
-    case File.exists?(file_path) do
-      false ->
-        {:error, :no_such_file}
+    if File.exists?(file_path) do
+      cmd_args = ["-v", "quiet", "-print_format", "json", "-show_streams", file_path]
 
-      true ->
-        cmd_args = ["-v", "quiet", "-print_format", "json", "-show_streams", file_path]
+      case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
+        {result, 0} ->
+          result
+          |> Jason.decode!()
+          |> Map.get("streams", [])
 
-        case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
-          {result, 0} ->
-            result
-            |> Jason.decode!()
-            |> Map.get("streams", [])
-
-          {_result, 1} ->
-            {:error, :invalid_file}
-        end
+        {_result, 1} ->
+          {:error, :invalid_file}
+      end
+    else
+      {:error, :no_such_file}
     end
   end
 
@@ -108,8 +113,12 @@ defmodule FFprobe do
   defp ffprobe_path do
     case Application.get_env(:ffmpex, :ffprobe_path, nil) do
       nil ->
-        with nil <- System.find_executable("ffprobe") do
-          raise "FFmpeg not installed"
+        case System.find_executable("ffprobe") do
+          nil ->
+            raise "FFmpeg not installed"
+
+          path ->
+            path
         end
 
       path ->

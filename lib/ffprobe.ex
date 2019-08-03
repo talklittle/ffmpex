@@ -17,7 +17,7 @@ defmodule FFprobe do
   If no duration (e.g., a still image), returns `:no_duration`.
   If the file does not exist, returns { :error, :no_such_file } 
   """
-  @spec duration(binary | format_map) :: float | :no_duration
+  @spec duration(binary | format_map) :: float | :no_duration | { :error, :no_such_file }
   def duration(file_path) when is_binary(file_path) do
     case format(file_path) do
       format = %{} ->

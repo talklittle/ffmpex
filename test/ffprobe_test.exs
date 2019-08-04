@@ -31,6 +31,18 @@ defmodule FFprobeTest do
     assert streams |> Enum.at(1) |> Map.get("codec_name") == "aac"
   end
 
+  test "stream/1 should return a error when the given file does not exist" do
+    assert {:error, :no_such_file} == FFprobe.streams("hej")
+  end
+
+  test "format/1 should return a error when the given file does not exist" do
+    assert {:error, :no_such_file} == FFprobe.format("hej")
+  end
+
+  test "format_names/1 should return a error when the given file does not exist" do
+    assert {:error, :no_such_file} == FFprobe.format_names("hej")
+  end
+
   test "format names include expected formats" do
     result = FFprobe.format_names(@fixture_mp4)
     assert "mp4" in result

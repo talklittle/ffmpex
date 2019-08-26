@@ -149,7 +149,7 @@ defmodule FFmpex do
 
   Returns `{ffmpeg_executable_path, list_of_args}`.
   """
-  @spec prepare(command :: Command.t) :: {binary(), list(binary)}
+  @spec prepare(command :: Command.t) :: {binary() | nil, list(binary)}
   def prepare(%Command{files: files, global_options: options}) do
     options = Enum.map(options, &arg_for_option/1)
     cmd_args = List.flatten([options, options_list(files)])

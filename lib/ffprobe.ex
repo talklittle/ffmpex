@@ -17,10 +17,10 @@ defmodule FFprobe do
   If no duration (e.g., a still image), returns `:no_duration`.
   If the file does not exist, returns { :error, :no_such_file } 
   """
-  @spec duration(binary | format_map) :: float | :no_duration | { :error, :no_such_file }
+  @spec duration(binary | format_map) :: float | :no_duration | {:error, :no_such_file}
   def duration(file_path) when is_binary(file_path) do
     case format(file_path) do
-      {:ok,format } ->
+      {:ok, format} ->
         duration(format)
 
       {:error, :invalid_file} ->
@@ -47,7 +47,7 @@ defmodule FFprobe do
           {:ok, [binary]} | {:error, :invalid_file} | {:error, :no_such_file}
   def format_names(file_path) when is_binary(file_path) do
     case format(file_path) do
-      {:ok,format} ->
+      {:ok, format} ->
         {:ok, format_names(format)}
 
       error ->
@@ -72,10 +72,10 @@ defmodule FFprobe do
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
         {result, 0} ->
-          {:ok, 
-            result
-            |> Jason.decode!()
-            |> Map.get("format", %{}) }
+          {:ok,
+           result
+           |> Jason.decode!()
+           |> Map.get("format", %{})}
 
         {_result, 1} ->
           {:error, :invalid_file}
@@ -97,10 +97,10 @@ defmodule FFprobe do
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
         {result, 0} ->
-          {
-            :ok, result
-            |> Jason.decode!()
-            |> Map.get("streams", []) }
+          {:ok,
+           result
+           |> Jason.decode!()
+           |> Map.get("streams", [])}
 
         {_result, 1} ->
           {:error, :invalid_file}

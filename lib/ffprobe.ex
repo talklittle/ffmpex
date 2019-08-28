@@ -48,7 +48,7 @@ defmodule FFprobe do
   def format_names(file_path) when is_binary(file_path) do
     case format(file_path) do
       {:ok, format} ->
-        {:ok, format_names(format)}
+        format_names(format)
 
       error ->
         error
@@ -56,7 +56,7 @@ defmodule FFprobe do
   end
 
   def format_names(format_map) when is_map(format_map) do
-    String.split(format_map["format_name"], ",")
+    {:ok, String.split(format_map["format_name"], ",")}
   end
 
   @doc """
@@ -72,10 +72,12 @@ defmodule FFprobe do
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
         {result, 0} ->
-          {:ok,
-           result
-           |> Jason.decode!()
-           |> Map.get("format", %{})}
+          json =
+            result
+            |> Jason.decode!()
+            |> Map.get("format", %{})
+
+          {:ok, json}
 
         {_result, 1} ->
           {:error, :invalid_file}
@@ -97,10 +99,12 @@ defmodule FFprobe do
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
         {result, 0} ->
-          {:ok,
-           result
-           |> Jason.decode!()
-           |> Map.get("streams", [])}
+          json =
+            result
+            |> Jason.decode!()
+            |> Map.get("streams", [])
+
+          {:ok, json}
 
         {_result, 1} ->
           {:error, :invalid_file}

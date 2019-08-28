@@ -16,15 +16,15 @@ defmodule FFprobeTest do
   end
 
   test "format has at least one expected key" do
-    assert %{"nb_streams" => 2} = FFprobe.format(@fixture)
+    assert {:ok, %{"nb_streams" => 2} } = FFprobe.format(@fixture)
   end
 
   test "format which filename has space" do
-    assert %{"nb_streams" => 2} = FFprobe.format(@fixture_space)
+    assert {:ok,%{"nb_streams" => 2}} = FFprobe.format(@fixture_space)
   end
 
   test "streams/1" do
-    streams = FFprobe.streams(@fixture_space)
+    assert {:ok,streams} = FFprobe.streams(@fixture_space)
 
     assert is_list(streams)
     assert streams |> Enum.at(0) |> Map.get("codec_name") == "h264"
@@ -44,7 +44,7 @@ defmodule FFprobeTest do
   end
 
   test "format names include expected formats" do
-    result = FFprobe.format_names(@fixture_mp4)
+    assert {:ok, result} = FFprobe.format_names(@fixture_mp4)
     assert "mp4" in result
     assert "mov" in result
     assert "m4a" in result

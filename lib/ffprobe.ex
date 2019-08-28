@@ -72,12 +72,12 @@ defmodule FFprobe do
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
         {result, 0} ->
-          json =
+          format =
             result
             |> Jason.decode!()
             |> Map.get("format", %{})
 
-          {:ok, json}
+          {:ok, format}
 
         {_result, 1} ->
           {:error, :invalid_file}
@@ -99,12 +99,12 @@ defmodule FFprobe do
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
         {result, 0} ->
-          json =
+          streams =
             result
             |> Jason.decode!()
             |> Map.get("streams", [])
 
-          {:ok, json}
+          {:ok, streams}
 
         {_result, 1} ->
           {:error, :invalid_file}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 (2019-09-05)
+
+* **Breaking change:** FFprobe API changes to return `{:ok, term}` or `{:error, atom}` from `format_names/1`, `format/1`, `streams/1`.
+* Changed `FFprobe.duration/1` to return `{:error, :no_such_file}` for nonexistent file, instead of raising MatchError.
+* Fixed FFprobe module to raise a clearer error message when FFmpeg not installed in system path.
+
 ## 0.6.0 (2019-07-16)
 
 * Changed to Jason instead of Poison for JSON operations.

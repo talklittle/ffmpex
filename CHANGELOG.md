@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.7.2 (2020-07-09)
+
+* Bumped Jason dependency to 1.2.
+
 ### 0.7.1 (2019-11-26)
 
 * Changed to `-loop` instead of deprecated `-loop_input` and `-loop_output` options in `FFmpex.Options.Advanced`.

@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.7.3 (2020-07-09)
+
+* Relaxed Jason dependency so it can get all 1.x versions without mix.exs update.
+
 ### 0.7.2 (2020-07-09)
 
 * Bumped Jason dependency to 1.2.

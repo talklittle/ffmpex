@@ -9,13 +9,13 @@ defmodule FFprobe do
   (from https://trac.ffmpeg.org/wiki/FFprobeTips)
   """
 
-  @type format_map :: Map.t()
-  @type streams_list :: [Map.t()]
+  @type format_map :: %{}
+  @type streams_list :: [%{}]
 
   @doc """
   Get the duration in seconds, as a float.
   If no duration (e.g., a still image), returns `:no_duration`.
-  If the file does not exist, returns { :error, :no_such_file } 
+  If the file does not exist, returns { :error, :no_such_file }
   """
   @spec duration(binary | format_map) :: float | :no_duration | {:error, :no_such_file}
   def duration(file_path) when is_binary(file_path) do
@@ -88,7 +88,7 @@ defmodule FFprobe do
   end
 
   @doc """
-  Get a list a of streams from the file. 
+  Get a list a of streams from the file.
   If the file does not exist, returns { :error, :no_such_file }.
   If the file is a non media file, returns { :error, :invalid_file }.
   """

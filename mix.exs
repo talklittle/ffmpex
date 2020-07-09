@@ -33,7 +33,7 @@ defmodule FFmpex.Mixfile do
   defp deps do
     [
       {:ex_doc, ">= 0.0.0", only: :dev},
-      {:jason, "~> 1.2.1"}
+      {:jason, "~> 1.2"}
     ]
   end
 

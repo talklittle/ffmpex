@@ -67,7 +67,7 @@ defmodule FFprobe do
   """
   @spec format(binary) :: {:ok, format_map} | {:error, :invalid_file} | {:error, :no_such_file}
   def format(file_path) do
-    if File.exists?(file_path) do
+    if file_exists?(file_path) do
       cmd_args = ["-v", "quiet", "-print_format", "json", "-show_format", file_path]
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
@@ -94,7 +94,7 @@ defmodule FFprobe do
   """
   @spec streams(binary) :: {:ok, streams_list} | {:error, :invalid_file} | {:error, :no_such_file}
   def streams(file_path) do
-    if File.exists?(file_path) do
+    if file_exists?(file_path) do
       cmd_args = ["-v", "quiet", "-print_format", "json", "-show_streams", file_path]
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
@@ -111,6 +111,30 @@ defmodule FFprobe do
       end
     else
       {:error, :no_such_file}
+    end
+  end
+
+  # Check if we have a local file OR if the path is a URL, then it checks it's valid
+  defp file_exists?(file_path) do
+    case File.exists?(file_path) do
+      true -> true
+      _ -> valid_url?(file_path)
+    end
+  end
+
+  # Check we have a valid URL
+  # Credit @Tronathan https://stackoverflow.com/questions/39041335/how-to-validate-url-in-elixir
+  defp valid_url?(value) do
+    case URI.parse(value) do
+      %URI{scheme: nil} ->
+        false
+      %URI{host: nil} ->
+        false
+      %URI{host: host} ->
+        case :inet.gethostbyname(Kernel.to_charlist(host)) do
+          {:ok, _} -> true
+          {:error, _} -> false
+        end
     end
   end
 

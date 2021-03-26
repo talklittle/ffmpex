@@ -49,4 +49,12 @@ defmodule FFprobeTest do
     assert "mov" in result
     assert "m4a" in result
   end
+
+  test "file_exists?/1 should return true when the given file_path is a valid url" do
+    assert true == FFprobe.test_file_exists?("http://www.google.com")
+  end
+
+  test "file_exists?/1 should return false when the given file_path is an invalid url" do
+    assert false == FFprobe.test_file_exists?("hej")
+  end
 end

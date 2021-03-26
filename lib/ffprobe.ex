@@ -122,6 +122,10 @@ defmodule FFprobe do
     end
   end
 
+  # So we can test our private function
+  @doc false
+  def test_file_exists?(file_path), do: file_exists?(file_path)
+
   # Check we have a valid URL
   # Credit @Tronathan https://stackoverflow.com/questions/39041335/how-to-validate-url-in-elixir
   defp valid_url?(value) do

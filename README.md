@@ -1,13 +1,10 @@
 # FFmpex
 
 [![Build Status](https://travis-ci.org/talklittle/ffmpex.svg?branch=master)](https://travis-ci.org/talklittle/ffmpex)
-[![Module Version](https://img.shields.io/hexpm/v/ffmpex.svg)](https://hex.pm/packages/ffmpex)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ffmpex/)
-[![Total Download](https://img.shields.io/hexpm/dt/ffmpex.svg)](https://hex.pm/packages/ffmpex)
-[![License](https://img.shields.io/hexpm/l/ffmpex.svg)](https://github.com/talklittle/ffmpex/blob/master/LICENSE.md)
-[![Last Updated](https://img.shields.io/github/last-commit/talklittle/ffmpex.svg)](https://github.com/talklittle/ffmpex/commits/master)
 
 An Elixir wrapper for the FFmpeg command line interface.
+
+Documentation: https://hexdocs.pm/ffmpex/
 
 ## Examples
 

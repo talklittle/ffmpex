@@ -1,6 +1,6 @@
 # FFmpex
 
-[![Build Status](https://travis-ci.org/talklittle/ffmpex.svg?branch=master)](https://travis-ci.org/talklittle/ffmpex)
+[![Build Status](https://github.com/talklittle/ffmpex/actions/workflows/ci.yml/badge.svg)](https://github.com/talklittle/ffmpex/actions?query=workflow%3ACI)
 
 An Elixir wrapper for the FFmpeg command line interface.
 

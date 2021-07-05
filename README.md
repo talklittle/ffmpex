@@ -1,10 +1,13 @@
 # FFmpex
 
 [![Build Status](https://travis-ci.org/talklittle/ffmpex.svg?branch=master)](https://travis-ci.org/talklittle/ffmpex)
+[![Module Version](https://img.shields.io/hexpm/v/ffmpex.svg)](https://hex.pm/packages/ffmpex)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ffmpex/)
+[![Total Download](https://img.shields.io/hexpm/dt/ffmpex.svg)](https://hex.pm/packages/ffmpex)
+[![License](https://img.shields.io/hexpm/l/ffmpex.svg)](https://github.com/talklittle/ffmpex/blob/master/LICENSE.md)
+[![Last Updated](https://img.shields.io/github/last-commit/talklittle/ffmpex.svg)](https://github.com/talklittle/ffmpex/commits/master)
 
 An Elixir wrapper for the FFmpeg command line interface.
-
-Documentation: https://hexdocs.pm/ffmpex/
 
 ## Examples
 
@@ -46,7 +49,9 @@ Add `ffmpex` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:ffmpex, "~> 0.7.2"}]
+  [
+    {:ffmpex, "~> 0.7.2"}
+  ]
 end
 ```
 
@@ -61,7 +66,7 @@ config :ffmpex, ffprobe_path: "/path/to/ffprobe"
 
 ## Release notes
 
-See the [changelog](CHANGELOG.md) for changes between versions.
+See the [Changelog](./CHANGELOG.md) for changes between versions.
 
 ## Disclaimer
 
@@ -69,6 +74,8 @@ FFmpex is not affiliated with nor endorsed by the FFmpeg project.
 
 FFmpeg is a trademark of [Fabrice Bellard](http://www.bellard.org/), originator of the FFmpeg project.
 
-## License
+## Copyright and License
 
-FFmpex source code is licensed under the [MIT License](LICENSE.md).
+Copyright (c) 2016 Andrew Shu
+
+FFmpex source code is licensed under the [MIT License](./LICENSE.md).

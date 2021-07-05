@@ -11,7 +11,7 @@ defmodule FFmpex do
   But with FFmpex (this library), you add the file/stream first, then
   add the relevant options afterward.
 
-  Example usage:
+  ## Example
 
       import FFmpex
       use FFmpex.Options
@@ -68,13 +68,11 @@ defmodule FFmpex do
   Add a stream specifier to the most recent file.
   The stream specifier is used as a target for per-stream options.
 
-  Example:
+  ## Example
 
-  ```
-  add_stream_specifier(command, stream_type: :video)
-  ```
+      add_stream_specifier(command, stream_type: :video)
 
-  Options:
+  ## Options
 
   * `:stream_index` - 0-based integer index for the stream
   * `:stream_type` - One of `:video`, `:video_without_pics`, `:audio`, `:subtitle`, `:data`, `:attachments`
@@ -101,6 +99,7 @@ defmodule FFmpex do
 
   @doc """
   Add a per-file option to the command.
+
   Applies to the most recently added file.
   """
   def add_file_option(%Command{files: [file | files]} = command, %Option{contexts: contexts} = option) do
@@ -113,6 +112,7 @@ defmodule FFmpex do
 
   @doc """
   Add a per-stream option to the command.
+
   Applies to the most recently added stream specifier, of the most recently added file.
   """
   def add_stream_option(%Command{files: [file | files]} = command, %Option{contexts: contexts} = option) do

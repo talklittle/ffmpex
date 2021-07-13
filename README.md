@@ -6,6 +6,12 @@ An Elixir wrapper for the FFmpeg command line interface.
 
 Documentation: https://hexdocs.pm/ffmpex/
 
+## Usage notes
+
+The API is a builder, building up the list of options per-file, per-stream(-per-file), and globally.
+
+Note that adding options is backwards from using the ffmpeg CLI; when using ffmpeg CLI, you specify the options before each file. But with FFmpex (this library), you add the file/stream first, then add the relevant options afterward.
+
 ## Examples
 
 ```elixir

@@ -1,6 +1,7 @@
 # FFmpex
 
 [![Build Status](https://github.com/talklittle/ffmpex/actions/workflows/ci.yml/badge.svg)](https://github.com/talklittle/ffmpex/actions?query=workflow%3ACI)
+[![Module Version](https://img.shields.io/hexpm/v/ffmpex.svg)](https://hex.pm/packages/ffmpex)
 
 An Elixir wrapper for the FFmpeg command line interface.
 

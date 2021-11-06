@@ -29,7 +29,20 @@ command =
     |> add_file_option(option_maxrate("128k"))
     |> add_file_option(option_bufsize("64k"))
 
-:ok = execute(command)
+{:ok, output} = execute(command)
+```
+
+It is possible to obtain ffmpeg's output with:
+```elixir
+command =
+  FFmpex.new_command
+  |> add_input_file("/path/to/input.mp4")
+  |> to_stdout()
+  |> add_file_option(option_f("avi"))
+
+{:ok, output} = execute(command)
+
+do_something(output)
 ```
 
 You can use the `FFprobe` module to query for file info:

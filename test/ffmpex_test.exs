@@ -26,7 +26,7 @@ defmodule FFmpexTest do
         |> add_file_option(option_maxrate("128k"))
         |> add_file_option(option_bufsize("64k"))
 
-    assert :ok = execute(command)
+    assert {:ok, _} = execute(command)
   end
 
   test "get error with invalid options" do
@@ -54,7 +54,7 @@ defmodule FFmpexTest do
       |> add_input_file(@fixture)
       |> add_output_file(@output_path)
 
-    assert :ok = execute(command)
+    assert {:ok, _} = execute(command)
   end
 
   test "error if invalid manual option name" do

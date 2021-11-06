@@ -65,6 +65,16 @@ defmodule FFmpex do
   end
 
   @doc """
+  Outputs to stdout, so it can be used directly from `execute/1`'s output
+
+  ##### this option cannot be used with output files
+  """
+  def to_stdout(%Command{files: files} = command) do
+    file = %File{type: :output, path: "-"}
+    %Command{command | files: [file | files]}
+  end
+
+  @doc """
   Add a stream specifier to the most recent file.
   The stream specifier is used as a target for per-stream options.
 
@@ -128,14 +138,14 @@ defmodule FFmpex do
   @doc """
   Execute the command using ffmpeg CLI.
 
-  Returns `:ok` on success, or `{:error, {cmd_output, exit_status}}` on error.
+  Returns `{:ok, output}` on success, or `{:error, {cmd_output, exit_status}}` on error.
   """
   @spec execute(command :: Command.t) :: :ok | {:error, {Collectable.t, exit_status :: non_neg_integer}}
   def execute(%Command{} = command) do
     {executable, cmd_args} = prepare(command)
 
     case System.cmd executable, cmd_args, stderr_to_stdout: true do
-      {_, 0} -> :ok
+      {stdout, 0} -> {:ok, stdout}
       error -> {:error, error}
     end
   end

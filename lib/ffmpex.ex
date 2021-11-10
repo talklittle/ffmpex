@@ -142,6 +142,8 @@ defmodule FFmpex do
   """
   @spec execute(command :: Command.t) :: {:ok, binary()|nil} | {:error, {Collectable.t, exit_status :: non_neg_integer}}
   def execute(%Command{} = command) do
+    ensure_erlexec_started!()
+
     {executable, args} = prepare(command)
     cli_command = [executable | args] |> Enum.map(&(to_charlist(&1)))
     output = :exec.run(cli_command, [:sync, :stdout, :stderr])
@@ -205,6 +207,15 @@ defmodule FFmpex do
     exit_status = Keyword.get(data, :exit_status) |> :exec.status() |> elem(1)
     stderr = Keyword.get(data, :stderr, []) |> Enum.join("")
     {:error, {stderr, exit_status}}
+  end
+
+  # Ensure erlexec dependency can start; attempt recovery due to missing SHELL environment variable.
+  defp ensure_erlexec_started! do
+    if not("SHELL" in System.get_env()) do
+      System.put_env("SHELL", "/bin/sh")
+    end
+
+    {:ok, _} = Application.ensure_all_started(:erlexec)
   end
 
   # Read ffmpeg path from config. If unspecified, assume `ffmpeg` is in env $PATH.

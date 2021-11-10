@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.8.0 (Not yet released)
 
 * **Breaking change:** `execute/1` returns `{:ok, output}` instead of `:ok`.
-* **Breaking change:** Require `SHELL` environment variable to be defined, as required by [erlexec](https://github.com/saleyn/erlexec). Check this if running your application in Docker.
 * Added `to_stdout/1` to direct ffmpeg output to a buffer instead of a file. Retrieve buffer in `{:ok, output}` result of `execute/1`. ([#31](https://github.com/talklittle/ffmpex/pull/31))
 
 ### 0.7.3 (2020-07-09)

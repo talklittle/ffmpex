@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.8.0 (Not yet released)
+## 0.8.0 (2021-11-10)
 
 * **Breaking change:** `execute/1` returns `{:ok, output}` instead of `:ok`.
 * Added `to_stdout/1` to direct ffmpeg output to a buffer instead of a file. Retrieve buffer in `{:ok, output}` result of `execute/1`. ([#31](https://github.com/talklittle/ffmpex/pull/31))

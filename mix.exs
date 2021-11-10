@@ -26,7 +26,8 @@ defmodule FFmpex.Mixfile do
   defp deps do
     [
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:jason, "~> 1.2"}
+      {:jason, "~> 1.2"},
+      {:erlexec, "~> 1.0"}
     ]
   end
 

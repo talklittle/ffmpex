@@ -65,6 +65,16 @@ defmodule FFmpex do
   end
 
   @doc """
+  Outputs to stdout, so it can be used directly from `execute/1`'s output
+
+  ##### this option cannot be used with output files
+  """
+  def to_stdout(%Command{files: files} = command) do
+    file = %File{type: :output, path: "-"}
+    %Command{command | files: [file | files]}
+  end
+
+  @doc """
   Add a stream specifier to the most recent file.
   The stream specifier is used as a target for per-stream options.
 
@@ -128,16 +138,15 @@ defmodule FFmpex do
   @doc """
   Execute the command using ffmpeg CLI.
 
-  Returns `:ok` on success, or `{:error, {cmd_output, exit_status}}` on error.
+  Returns `{:ok, output}` on success, or `{:error, {cmd_output, exit_status}}` on error.
   """
-  @spec execute(command :: Command.t) :: :ok | {:error, {Collectable.t, exit_status :: non_neg_integer}}
+  @spec execute(command :: Command.t) :: {:ok, binary()|nil} | {:error, {Collectable.t, exit_status :: non_neg_integer}}
   def execute(%Command{} = command) do
-    {executable, cmd_args} = prepare(command)
+    {executable, args} = prepare(command)
+    cli_command = [executable | args] |> Enum.map(&(to_charlist(&1)))
+    output = :exec.run(cli_command, [:sync, :stdout, :stderr])
 
-    case System.cmd executable, cmd_args, stderr_to_stdout: true do
-      {_, 0} -> :ok
-      error -> {:error, error}
-    end
+    format_output(output)
   end
 
   @doc """
@@ -183,6 +192,19 @@ defmodule FFmpex do
   defp validate_contexts!(:unspecified, _), do: :ok
   defp validate_contexts!(contexts, required) when is_list(contexts) do
     unless Enum.member?(contexts, required), do: raise ArgumentError
+  end
+
+  defp format_output({:ok, data}) do
+    case Keyword.get(data, :stdout) do
+      nil -> {:ok, nil}
+      binary_list -> {:ok, Enum.join(binary_list)}
+    end
+  end
+
+  defp format_output({:error, data}) do
+    exit_status = Keyword.get(data, :exit_status) |> :exec.status() |> elem(1)
+    stderr = Keyword.get(data, :stderr, []) |> Enum.join("")
+    {:error, {stderr, exit_status}}
   end
 
   # Read ffmpeg path from config. If unspecified, assume `ffmpeg` is in env $PATH.

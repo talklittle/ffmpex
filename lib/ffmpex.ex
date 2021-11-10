@@ -140,14 +140,13 @@ defmodule FFmpex do
 
   Returns `{:ok, output}` on success, or `{:error, {cmd_output, exit_status}}` on error.
   """
-  @spec execute(command :: Command.t) :: :ok | {:error, {Collectable.t, exit_status :: non_neg_integer}}
+  @spec execute(command :: Command.t) :: {:ok, binary()|nil} | {:error, {Collectable.t, exit_status :: non_neg_integer}}
   def execute(%Command{} = command) do
-    {executable, cmd_args} = prepare(command)
+    {executable, args} = prepare(command)
+    cli_command  = [executable | args] |> Enum.join(" ")
+    output = :exec.run(cli_command, [:sync, :stdout, :stderr])
 
-    case System.cmd executable, cmd_args, stderr_to_stdout: true do
-      {stdout, 0} -> {:ok, stdout}
-      error -> {:error, error}
-    end
+    format_output(output)
   end
 
   @doc """
@@ -159,7 +158,7 @@ defmodule FFmpex do
 
   Returns `{ffmpeg_executable_path, list_of_args}`.
   """
-  @spec prepare(command :: Command.t) :: {binary() | nil, list(binary)}
+  @spec prepare(command :: Command.t) :: {binary() | nil, list(binary)} 
   def prepare(%Command{files: files, global_options: options}) do
     options = Enum.map(options, &arg_for_option/1)
     cmd_args = List.flatten([options, options_list(files)])
@@ -193,6 +192,19 @@ defmodule FFmpex do
   defp validate_contexts!(:unspecified, _), do: :ok
   defp validate_contexts!(contexts, required) when is_list(contexts) do
     unless Enum.member?(contexts, required), do: raise ArgumentError
+  end
+
+  defp format_output({:ok, data}) do
+    case Keyword.get(data, :stdout) do
+      nil -> {:ok, nil}
+      binary_list -> {:ok, Enum.join(binary_list)}
+    end
+  end
+
+  defp format_output({:error, data}) do
+    exit_status = Keyword.get(data, :exit_status) |> :exec.status() |> elem(1)
+    stderr = Keyword.get(data, :stderr, []) |> Enum.join(" ") 
+    {:error, {stderr, exit_status}}
   end
 
   # Read ffmpeg path from config. If unspecified, assume `ffmpeg` is in env $PATH.

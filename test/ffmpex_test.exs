@@ -84,4 +84,15 @@ defmodule FFmpexTest do
     assert Enum.count(args) ==  10
     assert executable =~  "ffmpeg"
   end
+
+  test "can get output from stdout" do
+    command =
+      FFmpex.new_command()
+      |> add_input_file(@fixture) 
+      |> to_stdout()
+        |> add_file_option(option_f("avi"))
+
+    assert {:ok, stdout_binary} = execute(command)
+    assert is_binary(stdout_binary)
+  end
 end

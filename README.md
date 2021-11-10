@@ -60,6 +60,8 @@ for more usage examples.
 
 [FFmpeg](https://ffmpeg.org/) must be installed.
 
+`SHELL` environment variable must be defined, as required by [erlexec](https://github.com/saleyn/erlexec). Check this if running your application in Docker.
+
 ## Installation
 
 Add `ffmpex` to your list of dependencies in `mix.exs`:

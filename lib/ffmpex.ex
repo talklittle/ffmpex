@@ -143,7 +143,7 @@ defmodule FFmpex do
   @spec execute(command :: Command.t) :: {:ok, binary()|nil} | {:error, {Collectable.t, exit_status :: non_neg_integer}}
   def execute(%Command{} = command) do
     {executable, args} = prepare(command)
-    cli_command  = [executable | args] |> Enum.join(" ")
+    cli_command = [executable | args] |> Enum.map(&(to_charlist(&1)))
     output = :exec.run(cli_command, [:sync, :stdout, :stderr])
 
     format_output(output)
@@ -158,7 +158,7 @@ defmodule FFmpex do
 
   Returns `{ffmpeg_executable_path, list_of_args}`.
   """
-  @spec prepare(command :: Command.t) :: {binary() | nil, list(binary)} 
+  @spec prepare(command :: Command.t) :: {binary() | nil, list(binary)}
   def prepare(%Command{files: files, global_options: options}) do
     options = Enum.map(options, &arg_for_option/1)
     cmd_args = List.flatten([options, options_list(files)])
@@ -203,7 +203,7 @@ defmodule FFmpex do
 
   defp format_output({:error, data}) do
     exit_status = Keyword.get(data, :exit_status) |> :exec.status() |> elem(1)
-    stderr = Keyword.get(data, :stderr, []) |> Enum.join(" ") 
+    stderr = Keyword.get(data, :stderr, []) |> Enum.join("")
     {:error, {stderr, exit_status}}
   end
 

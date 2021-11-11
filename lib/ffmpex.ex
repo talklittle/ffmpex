@@ -211,7 +211,7 @@ defmodule FFmpex do
 
   # Ensure erlexec dependency can start; attempt recovery due to missing SHELL environment variable.
   defp ensure_erlexec_started! do
-    if not("SHELL" in System.get_env()) do
+    if System.get_env()["SHELL"] == nil do
       System.put_env("SHELL", "/bin/sh")
     end
 

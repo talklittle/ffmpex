@@ -140,15 +140,12 @@ defmodule FFmpex do
 
   Returns `{:ok, output}` on success, or `{:error, {cmd_output, exit_status}}` on error.
   """
-  @spec execute(command :: Command.t) :: {:ok, binary()|nil} | {:error, {Collectable.t, exit_status :: non_neg_integer}}
+  @spec execute(command :: Command.t) :: {:ok, binary()} | {:error, {Collectable.t, exit_status :: non_neg_integer}}
   def execute(%Command{} = command) do
-    ensure_erlexec_started!()
-
     {executable, args} = prepare(command)
-    cli_command = [executable | args] |> Enum.map(&(to_charlist(&1)))
-    output = :exec.run(cli_command, [:sync, :stdout, :stderr])
 
-    format_output(output)
+    Rambo.run(executable, args, log: false)
+    |> format_output()
   end
 
   @doc """
@@ -196,31 +193,12 @@ defmodule FFmpex do
     unless Enum.member?(contexts, required), do: raise ArgumentError
   end
 
-  defp format_output({:ok, data}) do
-    case Keyword.get(data, :stdout) do
-      nil -> {:ok, nil}
-      binary_list -> {:ok, Enum.join(binary_list)}
-    end
-  end
-
-  defp format_output({:error, data}) do
-    exit_status = Keyword.get(data, :exit_status) |> :exec.status() |> elem(1)
-    stderr = Keyword.get(data, :stderr, []) |> Enum.join("")
+  defp format_output({:ok, %{out: stdout}}), do:
+    {:ok, stdout}
+  defp format_output({:error, reason}) when is_binary(reason), do:
+    {:error, {reason, 1}}
+  defp format_output({:error, %{err: stderr, status: exit_status}}), do:
     {:error, {stderr, exit_status}}
-  end
-
-  # Ensure erlexec dependency can start; attempt recovery due to missing SHELL environment variable.
-  defp ensure_erlexec_started! do
-    if System.get_env()["SHELL"] == nil do
-      System.put_env("SHELL", "/bin/sh")
-    end
-
-    if System.get_env()["USER"] == "root" do
-      :exec.start([:root, {:user, "root"}, {:limit_users, ["root"]}])
-    else
-      :exec.start()
-    end
-  end
 
   # Read ffmpeg path from config. If unspecified, assume `ffmpeg` is in env $PATH.
   defp ffmpeg_path do

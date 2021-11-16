@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### 0.9.0 (2021-11-16)
+
+* Run commands with [Rambo](https://github.com/jayjun/rambo) instead of erlexec, to address issues running in Docker.
+* Requires Elixir 1.9.
+
 ### 0.8.2 (2021-11-15)
 
 * Fixed starting erlexec when running as root.

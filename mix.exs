@@ -2,7 +2,7 @@ defmodule FFmpex.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/talklittle/ffmpex"
-  @version "0.8.2"
+  @version "0.9.0"
 
   def project do
     [

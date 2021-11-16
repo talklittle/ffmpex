@@ -215,7 +215,11 @@ defmodule FFmpex do
       System.put_env("SHELL", "/bin/sh")
     end
 
-    {:ok, _} = Application.ensure_all_started(:erlexec)
+    if System.get_env()["USER"] == "root" do
+      :exec.start([:root, {:user, "root"}, {:limit_users, ["root"]}])
+    else
+      :exec.start()
+    end
   end
 
   # Read ffmpeg path from config. If unspecified, assume `ffmpeg` is in env $PATH.

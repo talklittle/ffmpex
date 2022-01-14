@@ -70,23 +70,19 @@ defmodule FFprobe do
   """
   @spec format(binary) :: {:ok, format_map} | {:error, :invalid_file} | {:error, :no_such_file}
   def format(file_path) do
-    if File.exists?(file_path) do
-      cmd_args = ["-v", "quiet", "-print_format", "json", "-show_format", file_path]
+    cmd_args = ["-print_format", "json", "-show_format", file_path]
 
-      case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
-        {result, 0} ->
-          format =
-            result
-            |> Jason.decode!()
-            |> Map.get("format", %{})
+    case Rambo.run(ffprobe_path(), cmd_args, log: false) do
+      {:ok, %{out: result}} ->
+        format =
+          result
+          |> Jason.decode!()
+          |> Map.get("format", %{})
 
-          {:ok, format}
+        {:ok, format}
 
-        {_result, 1} ->
-          {:error, :invalid_file}
-      end
-    else
-      {:error, :no_such_file}
+      {:error, %{err: result}} ->
+        file_error(file_path, result)
     end
   end
 
@@ -98,23 +94,28 @@ defmodule FFprobe do
   """
   @spec streams(binary) :: {:ok, streams_list} | {:error, :invalid_file} | {:error, :no_such_file}
   def streams(file_path) do
-    if File.exists?(file_path) do
-      cmd_args = ["-v", "quiet", "-print_format", "json", "-show_streams", file_path]
+    cmd_args = ["-print_format", "json", "-show_streams", file_path]
 
-      case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
-        {result, 0} ->
-          streams =
-            result
-            |> Jason.decode!()
-            |> Map.get("streams", [])
+    case Rambo.run(ffprobe_path(), cmd_args, log: false) do
+      {:ok, %{out: result}} ->
+        streams =
+          result
+          |> Jason.decode!()
+          |> Map.get("streams", [])
 
-          {:ok, streams}
+        {:ok, streams}
 
-        {_result, 1} ->
-          {:error, :invalid_file}
-      end
-    else
-      {:error, :no_such_file}
+      {:error, %{err: result}} ->
+        file_error(file_path, result)
+    end
+  end
+
+  defp file_error(file_path, error_text) do
+    cond do
+      File.exists?(file_path) -> {:error, :invalid_file}
+      String.contains?(error_text, "Invalid data found when processing input") -> {:error, :invalid_file}
+      String.contains?(error_text, "404 Not Found") -> {:error, :no_such_file}
+      true -> {:error, :no_such_file}
     end
   end
 

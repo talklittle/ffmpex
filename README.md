@@ -67,7 +67,7 @@ Add `ffmpex` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ffmpex, "~> 0.9.0"}
+    {:ffmpex, "~> 0.10.0"}
   ]
 end
 ```

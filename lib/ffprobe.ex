@@ -70,7 +70,7 @@ defmodule FFprobe do
   """
   @spec format(binary) :: {:ok, format_map} | {:error, :invalid_file} | {:error, :no_such_file}
   def format(file_path) do
-    if File.exists?(file_path) do
+    if File.exists?(file_path) or valid_url(file_path) do
       cmd_args = ["-v", "quiet", "-print_format", "json", "-show_format", file_path]
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
@@ -98,7 +98,7 @@ defmodule FFprobe do
   """
   @spec streams(binary) :: {:ok, streams_list} | {:error, :invalid_file} | {:error, :no_such_file}
   def streams(file_path) do
-    if File.exists?(file_path) do
+    if File.exists?(file_path) or valid_url(file_path) do
       cmd_args = ["-v", "quiet", "-print_format", "json", "-show_streams", file_path]
 
       case System.cmd(ffprobe_path(), cmd_args, stderr_to_stdout: true) do
@@ -134,5 +134,10 @@ defmodule FFprobe do
       path ->
         path
     end
+  end
+
+  defp valid_url(url) do
+    uri = URI.parse(url)
+    uri.scheme != nil and uri.host =~ "."
   end
 end

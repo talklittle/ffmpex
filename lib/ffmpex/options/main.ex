@@ -37,8 +37,6 @@ defmodule FFmpex.Options.Main do
     debug_ts:        %Option{name: "-debug_ts", contexts: [:global]},
     attach:          %Option{name: "-attach", require_arg: true, contexts: [:output]},
     dump_attachment: %Option{name: "-dump_attachment", require_arg: true, contexts: [:input, :per_stream]},
-    noautorotate:    %Option{name: "-noautorotate"},
-    pattern_type:    %Option{name: "-pattern_type", require_arg: true, contexts: [:input]},
   }
 
   require FFmpex.Options.Helpers

@@ -14,6 +14,7 @@ defmodule FFmpex.Options.Video do
     pass:             %Option{name: "-pass", require_arg: true, contexts: [:output, :per_stream]},
     passlogfile:      %Option{name: "-passlogfile", require_arg: true, contexts: [:output, :per_stream]},
     vf:               %Option{name: "-vf", require_arg: true, contexts: [:output]},
+    noautorotate:     %Option{name: "-noautorotate"},
     pix_fmt:          %Option{name: "-pix_fmt", require_arg: true, contexts: [:input, :output, :per_stream]},
     sws_flags:        %Option{name: "-sws_flags", require_arg: true, contexts: [:input, :output]},
     vdt:              %Option{name: "-vdt", require_arg: true},

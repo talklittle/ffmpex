@@ -45,7 +45,10 @@ defmodule FFmpex.Options.Main do
     hls_segment_filename: %Option{name: "-hls_segment_filename", require_arg: true, contexts: [:input, :output]},
     master_pl_name:       %Option{name: "-master_pl_name", require_arg: true, contexts: [:input, :output]},
     hls_base_url:         %Option{name: "-hls_base_url", require_arg: true, contexts: [:input, :output]},
-    var_stream_map:       %Option{name: "-var_stream_map", require_arg: true, contexts: [:input, :output]}
+    var_stream_map:       %Option{name: "-var_stream_map", require_arg: true, contexts: [:input, :output]},
+    segment_format:       %Option{name: "-segment_format", require_arg: true, contexts: [:input, :output]},
+    segment_time:         %Option{name: "-segment_time", require_arg: true, contexts: [:input, :output]},
+    segment_list:         %Option{name: "-segment_list", require_arg: true, contexts: [:input, :output]}
   }
 
   require FFmpex.Options.Helpers

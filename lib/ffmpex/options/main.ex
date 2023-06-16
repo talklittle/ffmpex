@@ -43,6 +43,7 @@ defmodule FFmpex.Options.Main do
     hls_playlist_type:    %Option{name: "-hls_playlist_type", require_arg: true, contexts: [:input, :output]},
     hls_segment_type:     %Option{name: "-hls_segment_type", require_arg: true, contexts: [:input, :output]},
     hls_segment_filename: %Option{name: "-hls_segment_filename", require_arg: true, contexts: [:input, :output]},
+    hls_init_time:        %Option{name: "-hls_init_time", require_arg: true, contexts: [:input, :output]},
     master_pl_name:       %Option{name: "-master_pl_name", require_arg: true, contexts: [:input, :output]},
     hls_base_url:         %Option{name: "-hls_base_url", require_arg: true, contexts: [:input, :output]},
     var_stream_map:       %Option{name: "-var_stream_map", require_arg: true, contexts: [:input, :output]},

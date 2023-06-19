@@ -46,6 +46,7 @@ defmodule FFmpex.Options.Main do
     hls_init_time:        %Option{name: "-hls_init_time", require_arg: true, contexts: [:input, :output]},
     master_pl_name:       %Option{name: "-master_pl_name", require_arg: true, contexts: [:input, :output]},
     hls_base_url:         %Option{name: "-hls_base_url", require_arg: true, contexts: [:input, :output]},
+    hls_flags:            %Option{name: "-hls_flags", require_arg: true, contexts: [:input, :output]},
     var_stream_map:       %Option{name: "-var_stream_map", require_arg: true, contexts: [:input, :output]},
     segment_format:       %Option{name: "-segment_format", require_arg: true, contexts: [:input, :output]},
     segment_time:         %Option{name: "-segment_time", require_arg: true, contexts: [:input, :output]},

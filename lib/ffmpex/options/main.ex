@@ -50,7 +50,9 @@ defmodule FFmpex.Options.Main do
     var_stream_map:       %Option{name: "-var_stream_map", require_arg: true, contexts: [:input, :output]},
     segment_format:       %Option{name: "-segment_format", require_arg: true, contexts: [:input, :output]},
     segment_time:         %Option{name: "-segment_time", require_arg: true, contexts: [:input, :output]},
-    segment_list:         %Option{name: "-segment_list", require_arg: true, contexts: [:input, :output]}
+    segment_list:         %Option{name: "-segment_list", require_arg: true, contexts: [:input, :output]},
+    mux_preload:          %Option{name: "-muxpreload", require_arg: true, contexts: [:input, :output]},
+    mux_delay:            %Option{name: "-muxdelay", require_arg: true, contexts: [:input, :output]}
   }
 
   require FFmpex.Options.Helpers

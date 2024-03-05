@@ -185,7 +185,7 @@ defmodule FFmpex do
     ~w(#{name})
   end
   defp arg_for_option(%Option{name: name, argument: arg}) when not is_nil(arg) do
-    ~w(#{name} #{arg})
+    [name, arg]
   end
 
   defp validate_contexts!(:unspecified, _), do: :ok

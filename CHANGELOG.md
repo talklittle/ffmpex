@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - ReleaseDate
+### Fixed
+* arg_for_option/1 function in FFmpex module to not sue sigil `~w` which will turn every word in a separate argument, instead it will now return the argument as is
+
 ## 0.10.0 (2022-01-14)
 
 * Allow FFprobe on remote URLs, instead of treating URLs as nonexistent files.

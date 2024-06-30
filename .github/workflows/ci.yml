@@ -16,8 +16,6 @@ jobs:
           elixir-version: ${{matrix.elixir}}
       - name: Install FFmpeg
         run: |
-          sudo apt-get install -qq software-properties-common
-          sudo add-apt-repository -y ppa:mc3man/bionic-media
           sudo apt-get update -qq
           sudo apt-get install -qq ffmpeg
       - run: mix deps.get

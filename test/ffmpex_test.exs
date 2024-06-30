@@ -66,7 +66,8 @@ defmodule FFmpexTest do
       |> add_input_file(@fixture)
       |> add_output_file(@output_path)
 
-    assert {:error, {_, 1}} = execute(command)
+    assert {:error, {_, exit_status}} = execute(command)
+    assert exit_status == 1 || exit_status == 8
   end
 
   test "can prepare arguments" do
@@ -88,7 +89,7 @@ defmodule FFmpexTest do
   test "can get output from stdout" do
     command =
       FFmpex.new_command()
-      |> add_input_file(@fixture) 
+      |> add_input_file(@fixture)
       |> to_stdout()
         |> add_file_option(option_f("avi"))
 

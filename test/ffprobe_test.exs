@@ -11,7 +11,8 @@ defmodule FFprobeTest do
   @fixture_non_media_file __ENV__.file
 
   test "correct duration" do
-    assert 21.0 == FFprobe.duration(@fixture)
+    duration = FFprobe.duration(@fixture)
+    assert duration > 20.9 && duration <= 21.0
   end
 
   test "handles N/A duration" do

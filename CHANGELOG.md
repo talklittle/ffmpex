@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.11.0 (2024-06-30)
+
+* Added `pattern_type` option. See `FFmpex.Options.Formats.Image2` module. ([#37](https://github.com/talklittle/ffmpex/pull/37))
+* Added Muxers/HLS options. See `FFmpex.Options.Muxers` module. ([#43](https://github.com/talklittle/ffmpex/pull/43))
+* Requires Elixir 1.12.
+
 ## 0.10.0 (2022-01-14)
 
 * Allow FFprobe on remote URLs, instead of treating URLs as nonexistent files.

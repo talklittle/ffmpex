@@ -14,6 +14,7 @@ defmodule FFmpex.Options do
       import FFmpex.Options.Devices.Libavdevice
       import FFmpex.Options.Formats.Image2
       import FFmpex.Options.Main
+      import FFmpex.Options.Muxers
       import FFmpex.Options.Subtitle
       import FFmpex.Options.Video
       import FFmpex.Options.Video.Libavformat

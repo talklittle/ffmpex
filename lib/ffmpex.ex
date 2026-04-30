@@ -95,7 +95,7 @@ defmodule FFmpex do
   @spec add_stream_specifier(command :: Command.t, opts :: Keyword.t) :: Command.t
   def add_stream_specifier(%Command{files: [file | files]} = command, opts) do
     stream_specifier = struct(StreamSpecifier, opts)
-    file = %File{file | stream_specifiers: [stream_specifier | file.stream_specifiers]}
+    file = %{file | stream_specifiers: [stream_specifier | file.stream_specifiers]}
     %Command{command | files: [file | files]}
   end
 
@@ -116,7 +116,7 @@ defmodule FFmpex do
     %{type: file_io_type} = file
     validate_contexts!(contexts, file_io_type)
 
-    file = %File{file | options: [option | file.options]}
+    file = %{file | options: [option | file.options]}
     %Command{command | files: [file | files]}
   end
 
@@ -130,8 +130,8 @@ defmodule FFmpex do
     validate_contexts!(contexts, file_io_type)
 
     %File{stream_specifiers: [stream_specifier | stream_specifiers]} = file
-    stream_specifier = %StreamSpecifier{stream_specifier | options: [option | stream_specifier.options]}
-    file = %File{file | stream_specifiers: [stream_specifier | stream_specifiers]}
+    stream_specifier = %{stream_specifier | options: [option | stream_specifier.options]}
+    file = %{file | stream_specifiers: [stream_specifier | stream_specifiers]}
     %Command{command | files: [file | files]}
   end
 

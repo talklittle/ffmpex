@@ -9,6 +9,7 @@ defmodule FFmpex.Options.Main do
     i:               %Option{name: "-i", require_arg: true, contexts: [:input]},
     y:               %Option{name: "-y", contexts: [:global]},
     n:               %Option{name: "-n", contexts: [:global]},
+    v:               %Option{name: "-v", require_arg: true, contexts: [:global]},
     stream_loop:     %Option{name: "-stream_loop", require_arg: true, contexts: [:input]},
     c:               %Option{name: "-c", require_arg: true, contexts: [:input, :output, :per_stream]},
     codec:           %Option{name: "-codec", require_arg: true, contexts: [:input, :output, :per_stream]},

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### 0.11.1 (2026-05-02)
+
+* Added `v` option to set logging verbosity. See `FFmpex.Options.Main` module. ([#47](https://github.com/talklittle/ffmpex/pull/47))
+
 ## 0.11.0 (2024-06-30)
 
 * Added `pattern_type` option. See `FFmpex.Options.Formats.Image2` module. ([#37](https://github.com/talklittle/ffmpex/pull/37))

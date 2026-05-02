@@ -2,18 +2,23 @@ name: CI
 on: [push, pull_request]
 jobs:
   test:
-    runs-on: ubuntu-20.04
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    runs-on: ${{matrix.compat.os}}
+    name: OTP ${{matrix.compat.otp}} / Elixir ${{matrix.compat.elixir}}
     strategy:
       matrix:
-        otp: ['22.0']
-        elixir: ['1.12']
+        compat:
+          - otp: '24.2'
+            elixir: '1.12'
+            os: ubuntu-22.04
+          - otp: '28'
+            elixir: '1.19'
+            os: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
+          otp-version: ${{matrix.compat.otp}}
+          elixir-version: ${{matrix.compat.elixir}}
       - name: Install FFmpeg
         run: |
           sudo apt-get update -qq
